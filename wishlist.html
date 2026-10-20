@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist | AURAMODE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" style="color: #000;" aria-label="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" aria-label="Account">
+          <i class="far fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <main style="max-width: 1440px; margin: 30px auto; padding: 0 40px;">
+    <h1 class="page-title" id="wishlistHeading">Wishlist (6)</h1>
+
+    <div class="product-grid" id="wishlistGrid">
+      <!-- Injected via script -->
+    </div>
+
+    <div id="emptyWishlistView" style="display: none; text-align: center; padding: 60px 20px;">
+      <h2 style="font-family: var(--font-serif); margin-bottom: 12px;">Your Wishlist is Empty</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">Explore our lookbook and save pieces to your wishlist.</p>
+      <a href="shop.html" class="btn-dark">EXPLORE SHOP</a>
+    </div>
+  </main>
+
+  <!-- You May Also Like Carousel -->
+  <section class="collections-section" style="margin: 60px auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+      <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">You May Also Like</h2>
+      <div>
+        <button onclick="scrollGrid('wishlistRecentGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="scrollGrid('wishlistRecentGrid', 300)" class="action-icon-btn"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="wishlistRecentGrid">
+      <!-- Populated via script -->
+    </div>
+  </section>
+
+  <!-- Newsletter & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function renderWishlist() {
+      const items = store.wishlist;
+      const grid = document.getElementById('wishlistGrid');
+      const heading = document.getElementById('wishlistHeading');
+      const empty = document.getElementById('emptyWishlistView');
+
+      heading.textContent = `Wishlist (${items.length})`;
+
+      if (items.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      empty.style.display = 'none';
+
+      const products = items.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+
+      grid.innerHTML = products.map(p => `
+        <div class="product-card">
+          <button class="wishlist-toggle-btn active" onclick="removeFromWishlist('${p.id}')" title="Remove from wishlist">
+            <i class="fas fa-heart"></i>
+          </button>
+          <a href="product-detail.html?id=${p.id}" class="product-thumb-container">
+            <img src="${p.image}" alt="${p.name}">
+          </a>
+          <div class="product-card-meta">
+            <h3 class="product-card-title"><a href="product-detail.html?id=${p.id}">${p.name}</a></h3>
+            <p class="product-card-subtitle">${p.subtitle}</p>
+            <div class="product-card-price-row">
+              <span class="product-price">${formatNaira(p.price)}</span>
+              <button onclick="moveToCart('${p.id}')" style="font-size: 0.75rem; text-decoration: underline; font-weight: 700;">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removeFromWishlist(pid) {
+      store.toggleWishlist(pid);
+      renderWishlist();
+      showToast('Removed from Wishlist');
+    }
+
+    function moveToCart(pid) {
+      const p = PRODUCTS.find(prod => prod.id === pid);
+      if (p) {
+        store.addToCart(p, 'White', 'M', 1);
+        store.toggleWishlist(pid);
+        renderWishlist();
+        showToast(`Moved ${p.name} to cart`);
+      }
+    }
+
+    function renderRelated() {
+      const el = document.getElementById('wishlistRecentGrid');
+      if (el) {
+        el.innerHTML = PRODUCTS.slice(0, 4).map(p => `
+          <div class="product-card">
+            <a href="product-detail.html?id=${p.id}" class="product-thumb-container">
+              <img src="${p.image}" alt="${p.name}">
+            </a>
+            <div class="product-card-meta">
+              <p class="product-color-count">${p.colors.length} Colors</p>
+              <h3 class="product-card-title"><a href="product-detail.html?id=${p.id}">${p.name}</a></h3>
+              <p class="product-card-subtitle">${p.subtitle}</p>
+              <div class="product-card-price-row">
+                <span class="product-price">${formatNaira(p.price)}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function scrollGrid(gridId, offset) {
+      const el = document.getElementById(gridId);
+      if (el) el.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderWishlist();
+      renderRelated();
+      window.addEventListener('auramode_store_updated', renderWishlist);
+    });
+  </script>
+</body>
+</html>
+

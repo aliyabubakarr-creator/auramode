@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | AURAMODE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .order-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .order-thumbs-cluster {
+      display: flex;
+      gap: 16px;
+    }
+    .order-thumb-box {
+      width: 130px;
+      height: 130px;
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: #ffffff;
+      overflow: hidden;
+    }
+    .order-thumb-box img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+    .more-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+    .order-details-col {
+      min-width: 280px;
+      font-size: 0.9rem;
+      line-height: 2;
+    }
+  </style>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" aria-label="Account">
+          <i class="far fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <main style="max-width: 1440px; margin: 30px auto; padding: 0 40px;">
+    <h1 class="page-title" id="ordersPageHeading">My Orders (3)</h1>
+
+    <div id="ordersListContainer">
+      <!-- Injected via script -->
+    </div>
+
+    <!-- Empty Orders View -->
+    <div id="emptyOrdersView" style="display: none; text-align: center; padding: 80px 20px;">
+      <h2 style="font-family: var(--font-serif); margin-bottom: 12px;">You haven't placed any orders yet</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">When you place an order, it will appear here for easy tracking.</p>
+      <a href="shop.html" class="btn-dark">START SHOPPING</a>
+    </div>
+  </main>
+
+  <!-- View Order Modal -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-content" style="max-width: 600px;">
+      <button class="modal-close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
+      <h2 id="modalOrderNo" style="font-family: var(--font-serif); margin-bottom: 8px;">Order Details</h2>
+      <p id="modalOrderStatus" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;"></p>
+      
+      <div id="modalOrderItems" style="max-height: 260px; overflow-y: auto; margin-bottom: 20px;">
+        <!-- Injected via script -->
+      </div>
+
+      <div style="border-top: 1px solid var(--border-light); padding-top: 14px; font-size: 0.9rem; line-height: 1.8;">
+        <div style="display: flex; justify-content: space-between;">
+          <span>Tracking Code:</span>
+          <strong>NG-ABJ-88492019</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Courier:</span>
+          <strong>DHL Express Nigeria</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-weight: 700; margin-top: 8px;">
+          <span>Total Paid:</span>
+          <span id="modalOrderTotal">N60,000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function renderOrders() {
+      const orders = store.orders;
+      const heading = document.getElementById('ordersPageHeading');
+      const listContainer = document.getElementById('ordersListContainer');
+      const emptyView = document.getElementById('emptyOrdersView');
+
+      heading.textContent = `My Orders (${orders.length})`;
+
+      if (orders.length === 0) {
+        listContainer.style.display = 'none';
+        emptyView.style.display = 'block';
+        return;
+      }
+
+      listContainer.style.display = 'block';
+      emptyView.style.display = 'none';
+
+      listContainer.innerHTML = orders.map((order, idx) => {
+        const item1 = order.items[0] || { image: 'assets/product-cosmic-white.png' };
+        const item2 = order.items[1] || { image: 'assets/product-seated-black.png' };
+        const item3 = order.items[2] || { image: 'assets/product-boxlogo-black.png' };
+        const moreCount = Math.max(0, order.items.length - 2);
+
+        return `
+          <div class="order-card-row">
+            <div class="order-thumbs-cluster">
+              <div class="order-thumb-box"><img src="${item1.image}" alt="Item 1"></div>
+              <div class="order-thumb-box"><img src="${item2.image}" alt="Item 2"></div>
+              <div class="order-thumb-box">
+                <img src="${item3.image}" alt="Item 3">
+                ${moreCount > 0 ? `<div class="more-overlay">+${moreCount} MORE</div>` : ''}
+              </div>
+            </div>
+
+            <div class="order-details-col">
+              <p>Order Status: <strong>${order.status}</strong></p>
+              <p>Order No.: ${order.orderNo}</p>
+              <p>Date Shipped: ${order.date}</p>
+              <button class="btn-outline-dark" style="margin-top: 12px; font-size: 0.8rem; padding: 8px 20px;" onclick="viewOrderModal(${idx})">VIEW ORDER</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function viewOrderModal(idx) {
+      const order = store.orders[idx];
+      if (!order) return;
+      document.getElementById('modalOrderNo').textContent = `Order #${order.orderNo}`;
+      document.getElementById('modalOrderStatus').textContent = `Status: ${order.status} | Placed: ${order.date}`;
+      document.getElementById('modalOrderTotal').textContent = formatNaira(order.total);
+
+      const itemsList = document.getElementById('modalOrderItems');
+      itemsList.innerHTML = order.items.map(it => `
+        <div style="display: flex; gap: 12px; margin-bottom: 12px; align-items: center;">
+          <img src="${it.image}" alt="${it.name}" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #eee;">
+          <div style="font-size: 0.85rem;">
+            <strong>${it.name}</strong><br>
+            <span style="color: #777;">Qty: ${it.qty || 1} &bull; ${formatNaira(it.price || 15000)}</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderOrders();
+      window.addEventListener('auramode_store_updated', renderOrders);
+    });
+  </script>
+</body>
+</html>
+

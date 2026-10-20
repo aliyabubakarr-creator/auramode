@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mushroom Head T-Shirt | AURAMODE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" aria-label="Account">
+          <i class="far fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="index.html">Home</a> <span>•</span> <a href="shop.html">Shop</a> <span>•</span> <span id="breadcrumbTitle">Mushroom Head T-Shirt</span>
+  </div>
+
+  <!-- Product Detail Section -->
+  <main class="product-detail-container">
+    <!-- 4-Image Grid -->
+    <div class="product-gallery-quad" id="productGalleryQuad">
+      <div class="gallery-quad-item" onclick="zoomImage(this)"><img src="assets/product-detail-front.png" alt="Front View" id="galleryImg1"></div>
+      <div class="gallery-quad-item" onclick="zoomImage(this)"><img src="assets/product-detail-models.png" alt="Editorial View" id="galleryImg2"></div>
+      <div class="gallery-quad-item" onclick="zoomImage(this)"><img src="assets/product-detail-closeup.png" alt="Detail View" id="galleryImg3"></div>
+      <div class="gallery-quad-item" onclick="zoomImage(this)"><img src="assets/product-detail-back.png" alt="Back View" id="galleryImg4"></div>
+    </div>
+
+    <!-- Product Info Panel -->
+    <div class="product-info-panel">
+      <h1 id="productTitle">Mushroom Head</h1>
+      <p class="product-sub" id="productSubtitle">T-Shirt</p>
+      <div class="product-price-lg" id="productPrice">N15000</div>
+
+      <!-- Color Swatches -->
+      <div class="swatch-group">
+        <div class="swatch-label">2 Colors</div>
+        <div class="color-swatches-row">
+          <div class="color-swatch-thumb active" onclick="selectColor('White', this)">
+            <img src="assets/product-detail-front.png" alt="White Swatch">
+          </div>
+          <div class="color-swatch-thumb" onclick="selectColor('Black', this)">
+            <img src="assets/product-boxlogo-black.png" alt="Black Swatch">
+          </div>
+        </div>
+        <div style="font-size: 0.85rem; margin-top: 6px; color: var(--text-secondary);" id="selectedColorLabel">White</div>
+      </div>
+
+      <!-- Size Selector -->
+      <div class="size-select-group">
+        <div class="size-select-header">
+          <span>Select Size:</span>
+          <span class="size-guide-link" onclick="openSizeGuide()">Size Guide</span>
+        </div>
+        <div class="sizes-row">
+          <button class="size-btn" onclick="selectSize('S', this)">S</button>
+          <button class="size-btn active" onclick="selectSize('M', this)">M</button>
+          <button class="size-btn" onclick="selectSize('L', this)">L</button>
+          <button class="size-btn" onclick="selectSize('XL', this)">XL</button>
+          <button class="size-btn" onclick="selectSize('2XL', this)" disabled>2XL</button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons-row">
+        <button class="btn-add-to-cart" id="btnAddToCart" onclick="handleAddToCart()">ADD TO CART</button>
+        <button class="btn-wishlist" id="btnWishlist" onclick="handleToggleWishlist()" aria-label="Save to Wishlist">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <!-- Accordions -->
+      <div class="accordion-item open">
+        <div class="accordion-header">
+          <span>Shipping</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="accordion-body">
+          Free shipping within Abuja. Flat fee of N5000 anywhere outside Abuja (Within Nigeria). Continue to Checkout to change location.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>Product Details</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="accordion-body">
+          • 100% 280GSM Heavyweight Combed Cotton<br>
+          • Silkscreened graphic print with high durability pigments<br>
+          • Pre-shrunk fabric to minimize shrinkage<br>
+          • Custom oversized boxy fit with ribbed crewneck collar<br>
+          • Made in Nigeria
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span>Reviews</span>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">4.5 ★★★★★</span>
+          </div>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="accordion-body">
+          <p><strong>Fatimah A.</strong> <span style="color:#888;">(Verified Buyer)</span>: "The cotton thickness is incredible. The fit is boxy and sits perfectly on shoulders."</p>
+          <p style="margin-top: 8px;"><strong>Tunde O.</strong> <span style="color:#888;">(Verified Buyer)</span>: "Screen print quality is top notch. Delivery to Abuja was lightning fast."</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- You May Also Like Carousel -->
+  <section class="collections-section" style="margin: 60px auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+      <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">You May Also Like</h2>
+      <div>
+        <button onclick="scrollGrid('relatedGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="scrollGrid('relatedGrid', 300)" class="action-icon-btn"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="relatedGrid">
+      <!-- Populated via script -->
+    </div>
+  </section>
+
+  <!-- Size Guide Modal -->
+  <div class="modal-overlay" id="sizeGuideModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeSizeGuide()"><i class="fas fa-times"></i></button>
+      <h2 style="font-family: var(--font-serif); margin-bottom: 16px;">Size Guide (Unisex Tee)</h2>
+      <table style="width: 100%; text-align: left; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="border-bottom: 1px solid #000;">
+            <th style="padding: 8px 0;">Size</th>
+            <th>Chest (in)</th>
+            <th>Length (in)</th>
+            <th>Shoulder (in)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0;">S</td><td>42</td><td>28</td><td>20</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0;">M</td><td>44</td><td>29</td><td>21</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0;">L</td><td>46</td><td>30</td><td>22</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0;">XL</td><td>48</td><td>31</td><td>23</td></tr>
+          <tr><td style="padding: 8px 0;">2XL</td><td>50</td><td>32</td><td>24</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary);">
+        Fit is boxy and oversized. If you prefer a regular tailored fit, consider sizing down.
+      </p>
+    </div>
+  </div>
+
+  <!-- Newsletter & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let activeProduct = PRODUCTS[0];
+    let selectedColor = 'White';
+    let selectedSize = 'M';
+
+    function initProduct() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pid = urlParams.get('id');
+      if (pid) {
+        const found = PRODUCTS.find(p => p.id === pid);
+        if (found) activeProduct = found;
+      }
+
+      document.getElementById('productTitle').textContent = activeProduct.name;
+      document.getElementById('productSubtitle').textContent = activeProduct.subtitle;
+      document.getElementById('productPrice').textContent = formatNaira(activeProduct.price);
+      document.getElementById('breadcrumbTitle').textContent = `${activeProduct.name} ${activeProduct.subtitle}`;
+      document.title = `${activeProduct.name} ${activeProduct.subtitle} | AURAMODE`;
+
+      // Update wishlist button state
+      updateWishlistBtn();
+
+      // Related products
+      const relatedGrid = document.getElementById('relatedGrid');
+      if (relatedGrid) {
+        const related = PRODUCTS.filter(p => p.id !== activeProduct.id).slice(0, 4);
+        relatedGrid.innerHTML = related.map(p => {
+          const isFav = store.isInWishlist(p.id);
+          return `
+            <div class="product-card">
+              <button class="wishlist-toggle-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, '${p.id}')">
+                <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+              </button>
+              ${p.badge ? `<div class="product-badges"><span class="badge-tag ${p.badge === 'NEW' ? 'badge-new' : 'badge-soldout'}">${p.badge}</span></div>` : ''}
+              <a href="product-detail.html?id=${p.id}" class="product-thumb-container">
+                <img src="${p.image}" alt="${p.name}">
+              </a>
+              <div class="product-card-meta">
+                <p class="product-color-count">${p.colors.length} Colors</p>
+                <h3 class="product-card-title"><a href="product-detail.html?id=${p.id}">${p.name}</a></h3>
+                <p class="product-card-subtitle">${p.subtitle}</p>
+                <div class="product-card-price-row">
+                  <span class="product-price">${formatNaira(p.price)}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function selectColor(color, el) {
+      selectedColor = color;
+      document.querySelectorAll('.color-swatch-thumb').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('selectedColorLabel').textContent = color;
+
+      if (color === 'Black') {
+        document.getElementById('galleryImg1').src = 'assets/product-boxlogo-black.png';
+        document.getElementById('galleryImg4').src = 'assets/product-seated-black.png';
+      } else {
+        document.getElementById('galleryImg1').src = 'assets/product-detail-front.png';
+        document.getElementById('galleryImg4').src = 'assets/product-detail-back.png';
+      }
+    }
+
+    function selectSize(size, el) {
+      selectedSize = size;
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function handleAddToCart() {
+      store.addToCart(activeProduct, selectedColor, selectedSize, 1);
+      showToast(`Added ${activeProduct.name} (${selectedColor}, ${selectedSize}) to cart`);
+    }
+
+    function handleToggleWishlist() {
+      store.toggleWishlist(activeProduct.id);
+      updateWishlistBtn();
+      showToast(store.isInWishlist(activeProduct.id) ? 'Saved to Wishlist' : 'Removed from Wishlist');
+    }
+
+    function updateWishlistBtn() {
+      const btn = document.getElementById('btnWishlist');
+      const isFav = store.isInWishlist(activeProduct.id);
+      btn.innerHTML = `<i class="${isFav ? 'fas' : 'far'} fa-heart" style="${isFav ? 'color: #e53935;' : ''}"></i>`;
+    }
+
+    function openSizeGuide() {
+      document.getElementById('sizeGuideModal').style.display = 'flex';
+    }
+
+    function closeSizeGuide() {
+      document.getElementById('sizeGuideModal').style.display = 'none';
+    }
+
+    function zoomImage(el) {
+      // Small interaction preview
+      const img = el.querySelector('img');
+      if (img) {
+        showToast('Viewing full image');
+      }
+    }
+
+    function scrollGrid(gridId, offset) {
+      const el = document.getElementById(gridId);
+      if (el) el.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
+    function toggleFav(e, pid) {
+      e.stopPropagation();
+      store.toggleWishlist(pid);
+      initProduct();
+      showToast(store.isInWishlist(pid) ? 'Saved to Wishlist' : 'Removed from Wishlist');
+    }
+
+    document.addEventListener('DOMContentLoaded', initProduct);
+  </script>
+</body>
+</html>
+

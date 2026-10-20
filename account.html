@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | AURAMODE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .account-sidebar-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 16px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+    }
+    .account-sidebar-btn.active {
+      border: 1.5px solid #000000;
+      font-weight: 700;
+    }
+    .account-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.9rem;
+    }
+    .edit-action-link {
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="account.html" class="user-greeting" style="font-weight: 700;">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" style="color: #000;" aria-label="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="index.html">Home</a> <span>→</span> <span>My Account</span>
+  </div>
+
+  <main style="max-width: 1440px; margin: 20px auto 60px; padding: 0 40px;">
+    <h1 class="page-title">My Account</h1>
+
+    <div style="display: grid; grid-template-columns: 280px 1fr; gap: 60px;">
+      <!-- Left Tabs -->
+      <div>
+        <button class="account-sidebar-btn active" id="tabBtnDetails" onclick="switchTab('details')">
+          <span>Account Details</span> <span>&gt;</span>
+        </button>
+        <button class="account-sidebar-btn" id="tabBtnAddress" onclick="switchTab('address')">
+          <span>Address Book</span> <span>&gt;</span>
+        </button>
+        <button class="account-sidebar-btn" id="tabBtnPrefs" onclick="switchTab('preferences')">
+          <span>Preferences</span> <span>&gt;</span>
+        </button>
+        <a href="orders.html" class="account-sidebar-btn" style="margin-top: 24px; text-decoration: none;">
+          <span>My Orders</span> <span>&gt;</span>
+        </a>
+
+        <div style="margin-top: 40px;">
+          <button class="btn-outline-dark" style="width: 100%; font-size: 0.8rem;" onclick="confirmDeleteAccount()">DELETE ACCOUNT</button>
+        </div>
+      </div>
+
+      <!-- Right Tab Content -->
+      <div>
+        <!-- Details View -->
+        <div id="viewDetails">
+          <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 24px;">Account Details</h2>
+          
+          <div class="account-row">
+            <div>
+              <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Full Name:</span>
+              <strong id="displayFullName">Sherlock P</strong>
+            </div>
+            <span class="edit-action-link" onclick="openEditModal('name')">Edit</span>
+          </div>
+
+          <div class="account-row">
+            <div>
+              <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Email Address:</span>
+              <strong id="displayEmail">auramodeszn@gmail.com</strong>
+            </div>
+            <span class="edit-action-link" onclick="openEditModal('email')">Edit</span>
+          </div>
+
+          <div class="account-row">
+            <div>
+              <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Password:</span>
+              <strong>••••••••••••</strong>
+            </div>
+            <span class="edit-action-link" onclick="openEditModal('password')">Edit</span>
+          </div>
+        </div>
+
+        <!-- Address Book View -->
+        <div id="viewAddress" style="display: none;">
+          <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 24px;">Address Book</h2>
+          
+          <div style="border: 1px solid var(--border-light); padding: 20px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <strong>Default Delivery Address</strong>
+              <span class="badge-tag" style="background: #000; color: #fff;">DEFAULT</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+              Sherlock P<br>
+              River Park Estate, Lugbe<br>
+              Abuja, FCT<br>
+              Nigeria<br>
+              09024462630
+            </p>
+          </div>
+
+          <button class="btn-dark" onclick="showToast('Address book updated')">ADD NEW ADDRESS</button>
+        </div>
+
+        <!-- Preferences View -->
+        <div id="viewPreferences" style="display: none;">
+          <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 24px;">Preferences</h2>
+          
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <label class="checkbox-label">
+              <input type="checkbox" checked>
+              <span>Receive notifications on SZN drops and early collection access</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" checked>
+              <span>Email receipts and automated shipment tracking updates</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox">
+              <span>SMS order dispatch alerts</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Account Modal -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeEditModal()"><i class="fas fa-times"></i></button>
+      <h2 id="editModalTitle" style="font-family: var(--font-serif); margin-bottom: 16px;">Edit</h2>
+      <div class="form-group">
+        <label id="editModalLabel">New Value</label>
+        <input type="text" id="editModalInput" class="form-input">
+      </div>
+      <button class="btn-dark" style="width: 100%;" onclick="saveEditModal()">SAVE CHANGES</button>
+    </div>
+  </div>
+
+  <!-- Newsletter & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let activeField = '';
+
+    function switchTab(tab) {
+      document.getElementById('viewDetails').style.display = tab === 'details' ? 'block' : 'none';
+      document.getElementById('viewAddress').style.display = tab === 'address' ? 'block' : 'none';
+      document.getElementById('viewPreferences').style.display = tab === 'preferences' ? 'block' : 'none';
+
+      document.getElementById('tabBtnDetails').classList.toggle('active', tab === 'details');
+      document.getElementById('tabBtnAddress').classList.toggle('active', tab === 'address');
+      document.getElementById('tabBtnPrefs').classList.toggle('active', tab === 'preferences');
+    }
+
+    function openEditModal(field) {
+      activeField = field;
+      const modal = document.getElementById('editModal');
+      const title = document.getElementById('editModalTitle');
+      const label = document.getElementById('editModalLabel');
+      const input = document.getElementById('editModalInput');
+
+      modal.style.display = 'flex';
+      if (field === 'name') {
+        title.textContent = 'Edit Full Name';
+        label.textContent = 'Full Name';
+        input.value = store.user.name;
+        input.type = 'text';
+      } else if (field === 'email') {
+        title.textContent = 'Edit Email Address';
+        label.textContent = 'Email';
+        input.value = store.user.email;
+        input.type = 'email';
+      } else if (field === 'password') {
+        title.textContent = 'Change Password';
+        label.textContent = 'New Password';
+        input.value = '';
+        input.type = 'password';
+      }
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').style.display = 'none';
+    }
+
+    async function saveEditModal() {
+      const val = document.getElementById('editModalInput').value.trim();
+      if (!val) return;
+      if (activeField === 'name') {
+        store.user.name = val;
+        document.getElementById('displayFullName').textContent = val;
+        const parts = val.split(' ');
+        await store.updateProfile({
+          email: store.user.email,
+          firstName: parts[0] || '',
+          lastName: parts.slice(1).join(' ') || ''
+        });
+      } else if (activeField === 'email') {
+        const oldEmail = store.user.email;
+        store.user.email = val;
+        document.getElementById('displayEmail').textContent = val;
+        await store.updateProfile({
+          email: val
+        });
+      }
+      closeEditModal();
+      showToast('Account details updated successfully');
+      updateHeaderBadges();
+    }
+
+    function confirmDeleteAccount() {
+      if (confirm('Are you sure you want to delete your AURAMODE account? This action cannot be undone.')) {
+        store.logout();
+        window.location.href = 'index.html';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (store.user) {
+        document.getElementById('displayFullName').textContent = store.user.name;
+        document.getElementById('displayEmail').textContent = store.user.email;
+      }
+    });
+  </script>
+</body>
+</html>
+

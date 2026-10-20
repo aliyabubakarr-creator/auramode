@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | AURAMODE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="login.html" class="user-greeting">Sign In <i class="far fa-user"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" aria-label="Account">
+          <i class="far fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <h2 style="font-family: var(--font-serif); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; margin: 40px 0 10px;">AURAMODE ACCOUNT</h2>
+
+  <main style="max-width: 1100px; margin: 30px auto 60px; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;">
+    <!-- Left Column: Member Perks -->
+    <div style="font-size: 0.9rem; line-height: 1.9; padding-right: 20px;">
+      <h3 style="font-family: var(--font-mono); font-size: 1rem; font-weight: 700; margin-bottom: 20px; line-height: 1.5;">
+        BE A MEMBER TO GET FREE SHIPPING ON ALL ORDERS ABOVE N15,000
+      </h3>
+
+      <p style="margin-bottom: 16px;">When you create an account, you get perks like:</p>
+
+      <ul style="list-style: none; margin-bottom: 24px;">
+        <li style="margin-bottom: 14px;">• Free shipping on all orders above N15,000</li>
+        <li style="margin-bottom: 14px;">• A unique AURAMODE members only card that can be activated for special giveaways</li>
+        <li style="margin-bottom: 14px;">• Curated emails regarding fashion and your preferences</li>
+      </ul>
+
+      <p>Create your account now to start enjoying all of these benefits.</p>
+    </div>
+
+    <!-- Right Column: Registration Form -->
+    <div>
+      <h1 style="font-family: var(--font-serif); font-size: 1.7rem; margin-bottom: 24px;">Register</h1>
+
+      <form onsubmit="handleRegister(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name*</label>
+            <input type="text" class="form-input" id="regFirstName" value="Sherlock" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name*</label>
+            <input type="text" class="form-input" id="regLastName" placeholder="Last Name*" value="P" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email address*</label>
+          <input type="email" class="form-input" id="regEmail" value="auramodeszn@gmail.com" oninput="validateRegEmail(this)" required>
+          <div id="regEmailErr" class="form-error-note" style="display: none;">[Enter correct email e.g. example@email.com]</div>
+        </div>
+
+        <div class="form-group" style="position: relative;">
+          <label>Password</label>
+          <input type="password" class="form-input" id="regPass" placeholder="Password" value="password123" required>
+          <button type="button" onclick="toggleRegPassVisibility()" style="position: absolute; right: 14px; top: 32px; color: #888;" aria-label="Toggle password visibility">
+            <i class="far fa-eye" id="regEyeIcon"></i>
+          </button>
+        </div>
+
+        <label class="checkbox-label" style="margin: 20px 0 16px;">
+          <input type="checkbox" checked>
+          <span>I want to receive curated newsletters about products</span>
+        </label>
+
+        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;">
+          By continuing, I confirm that I accept the Terms and conditions and the Privacy Policy
+        </p>
+
+        <button type="submit" class="btn-dark" style="width: 100%; padding: 14px 0; margin-bottom: 24px;">CREATE ACCOUNT</button>
+
+        <p style="text-align: center; font-size: 0.9rem;">
+          Already a member? <a href="login.html" style="font-weight: 700; text-decoration: underline;">LOG IN</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <!-- Newsletter & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function validateRegEmail(input) {
+      const err = document.getElementById('regEmailErr');
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+      if (!valid && input.value.length > 0) {
+        err.style.display = 'inline-block';
+      } else {
+        err.style.display = 'none';
+      }
+    }
+
+    function toggleRegPassVisibility() {
+      const input = document.getElementById('regPass');
+      const icon = document.getElementById('regEyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'far fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'far fa-eye';
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const fn = document.getElementById('regFirstName').value.trim();
+      const ln = document.getElementById('regLastName').value.trim();
+      const em = document.getElementById('regEmail').value.trim();
+      const pw = document.getElementById('regPass').value;
+
+      const res = await store.register({
+        firstName: fn,
+        lastName: ln,
+        email: em,
+        password: pw
+      });
+
+      if (res && res.success) {
+        showToast('Account created successfully! Welcome to AURAMODE');
+        setTimeout(() => {
+          window.location.href = 'account.html';
+        }, 600);
+      } else {
+        showToast(res && res.message ? res.message : 'Registration failed');
+      }
+    }
+  </script>
+</body>
+</html>
+

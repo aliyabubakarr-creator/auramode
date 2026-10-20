@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURAMODE | High Fashion & Avant-Garde Streetwear</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Announcement Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Main Site Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" aria-label="Account">
+          <i class="far fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- Hero Section -->
+  <section class="hero-banner" style="background-image: url('assets/hero-cosmic.jpg');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h2>COSMIC 2023</h2>
+      <p>Step into a world of fantasy and elegance as the "COSMIC" Collection transports you to a realm where dreams come alive.</p>
+      <a href="shop.html" class="btn-outline-white">SHOP COLLECTION</a>
+    </div>
+  </section>
+
+  <!-- Collections Section -->
+  <section class="collections-section">
+    <h2 class="section-title">Shop Collections</h2>
+    <div class="collections-grid">
+      <a href="shop.html?collection=SZN 1" class="collection-card szn-large">
+        <img src="assets/szn1.png" alt="AURAMODE SZN 1">
+      </a>
+      <div class="collection-right-stack">
+        <a href="shop.html?collection=SZN 2" class="collection-card">
+          <img src="assets/szn2.png" alt="AURAMODE SZN 2">
+        </a>
+        <a href="shop.html?collection=SZN 3" class="collection-card">
+          <img src="assets/szn3.png" alt="AURAMODE SZN 3">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop By Category Section -->
+  <section class="collections-section" style="margin-top: 60px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+      <div>
+        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; display: inline-block; margin-right: 24px;">Shop By Category</h2>
+        <span style="font-size: 0.85rem; display: inline-flex; gap: 20px;">
+          <a href="shop.html?category=wears" style="text-decoration: underline; font-weight: 700;">Wears</a>
+          <a href="shop.html?category=accessories">Accessories</a>
+          <a href="shop.html?category=homedecor">Home Décor</a>
+          <a href="shop.html?category=periodicals">Periodicals</a>
+        </span>
+      </div>
+      <div>
+        <a href="shop.html" style="font-size: 0.85rem; text-decoration: underline; margin-right: 20px;">View All</a>
+        <button onclick="scrollGrid('catGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="scrollGrid('catGrid', 300)" class="action-icon-btn"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="catGrid">
+      <!-- Populated via script -->
+    </div>
+  </section>
+
+  <!-- Lookbook SZN 4 Banner -->
+  <section class="szn4-wide-banner">
+    <a href="shop.html?collection=SZN 4">
+      <img src="assets/szn4-banner.png" alt="AURAMODE SZN 4 COMING SOON">
+    </a>
+  </section>
+
+  <!-- Hot Picks Section -->
+  <section class="collections-section">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+      <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">Hot Picks</h2>
+      <div>
+        <button onclick="scrollGrid('hotPicksGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="scrollGrid('hotPicksGrid', 300)" class="action-icon-btn"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="hotPicksGrid">
+      <!-- Populated via script -->
+    </div>
+  </section>
+
+  <!-- Continuous Repeating Logo Strip -->
+  <section class="marquee-container" style="margin-top: 60px;">
+    <div class="marquee-content">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+      <img src="assets/logo.png" alt="AURA">
+    </div>
+  </section>
+
+  <!-- Newsletter Signup & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function renderProductCard(p) {
+      const isFav = store.isInWishlist(p.id);
+      return `
+        <div class="product-card">
+          <button class="wishlist-toggle-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, '${p.id}')" aria-label="Save to Wishlist">
+            <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+          </button>
+          ${p.badge ? `<div class="product-badges"><span class="badge-tag ${p.badge === 'NEW' ? 'badge-new' : 'badge-soldout'}">${p.badge}</span></div>` : ''}
+          <a href="product-detail.html?id=${p.id}" class="product-thumb-container">
+            <img src="${p.image}" alt="${p.name}">
+          </a>
+          <div class="product-card-meta">
+            <p class="product-color-count">${p.colors.length} Colors</p>
+            <h3 class="product-card-title"><a href="product-detail.html?id=${p.id}">${p.name}</a></h3>
+            <p class="product-card-subtitle">${p.subtitle}</p>
+            <div class="product-card-price-row">
+              <span class="product-price">${formatNaira(p.price)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleFav(e, pid) {
+      e.stopPropagation();
+      store.toggleWishlist(pid);
+      renderSections();
+      showToast(store.isInWishlist(pid) ? 'Saved to Wishlist' : 'Removed from Wishlist');
+    }
+
+    function scrollGrid(gridId, offset) {
+      const el = document.getElementById(gridId);
+      if (el) el.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
+    function renderSections() {
+      const catGrid = document.getElementById('catGrid');
+      const hotPicksGrid = document.getElementById('hotPicksGrid');
+      if (catGrid) {
+        catGrid.innerHTML = PRODUCTS.slice(0, 4).map(renderProductCard).join('');
+      }
+      if (hotPicksGrid) {
+        hotPicksGrid.innerHTML = PRODUCTS.slice(4, 8).map(renderProductCard).join('');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderSections);
+  </script>
+</body>
+</html>
+

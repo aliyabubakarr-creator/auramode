@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart | AURAMODE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    FREE SHIPPING FOR MEMBERS. <a href="register.html">JOIN NOW</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <a href="about.html">About Us</a>
+      <a href="about.html#help">Help</a>
+      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+    </div>
+    <div class="header-main">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="shop.html?tag=new">New In</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="shop.html?tag=collections">Collections</a></li>
+          <li><a href="shop.html?tag=sale">Sale</a></li>
+        </ul>
+      </nav>
+
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search" class="header-search-input">
+        </div>
+        <a href="wishlist.html" class="action-icon-btn" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-badge">0</span>
+        </a>
+        <a href="account.html" class="action-icon-btn" aria-label="Account">
+          <i class="far fa-user"></i>
+        </a>
+        <a href="cart.html" class="action-icon-btn" aria-label="Shopping Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="badge-count cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    <a href="index.html" class="drawer-logo">
+      <img src="assets/logo.png" alt="AURAMODE Logo">
+    </a>
+    <ul>
+      <li><a href="shop.html?tag=new">New In</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?tag=collections">Collections</a></li>
+      <li><a href="shop.html?tag=sale">Sale</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </aside>
+
+  <main style="max-width: 1440px; margin: 30px auto; padding: 0 40px;">
+    <h1 class="page-title">Shopping Cart</h1>
+
+    <div class="cart-layout" id="cartContentLayout">
+      <!-- Cart Items List -->
+      <div class="cart-items-list" id="cartItemsList">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Order Summary Sidebar -->
+      <div class="order-summary-box">
+        <h2>YOUR ORDER SUMMARY</h2>
+        
+        <div class="summary-line">
+          <span>Subtotal:</span>
+          <span id="summarySubtotal">N60,000</span>
+        </div>
+        <div class="summary-line">
+          <span>Shipping:</span>
+          <span id="summaryShipping">FREE</span>
+        </div>
+        <div class="summary-line summary-total">
+          <span>Total:</span>
+          <span id="summaryTotal">N60,000</span>
+        </div>
+
+        <a href="checkout.html" class="btn-dark" style="width: 100%; margin: 20px 0 12px; text-align: center;">PROCEED TO CHECKOUT</a>
+        
+        <p style="font-size: 0.75rem; text-align: center; color: var(--text-secondary); margin-bottom: 24px;">
+          <i class="fas fa-lock"></i> Pay securely with Paystack
+        </p>
+
+        <!-- Promo Code Accordion -->
+        <div class="accordion-item" style="border-top: 1px solid var(--border-light);">
+          <div class="accordion-header">
+            <span>Use Promo Code</span>
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="accordion-body">
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="promoInput" placeholder="Enter promo code (e.g. AURA10)" class="form-input" style="padding: 8px 12px; font-size: 0.8rem;">
+              <button class="btn-dark" style="padding: 8px 16px; font-size: 0.8rem;" onclick="applyPromoCode()">SUBMIT</button>
+            </div>
+            <p id="promoMessage" style="font-size: 0.75rem; margin-top: 6px;"></p>
+          </div>
+        </div>
+
+        <!-- Shipping Info Accordion -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>Shipping</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="accordion-body">
+            Free shipping within Abuja. Flat fee of N5000 anywhere outside Abuja (Within Nigeria). Continue to Checkout to change location.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty Cart Fallback -->
+    <div id="emptyCartView" style="display: none; text-align: center; padding: 80px 20px;">
+      <h2 style="font-family: var(--font-serif); margin-bottom: 12px;">Your Cart is Empty</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">Explore our collection and add your favorite pieces.</p>
+      <a href="shop.html" class="btn-dark">START SHOPPING</a>
+    </div>
+  </main>
+
+  <!-- Recently Viewed Carousel -->
+  <section class="collections-section" style="margin: 60px auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+      <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">Recently Viewed</h2>
+      <div>
+        <button onclick="scrollGrid('recentGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="scrollGrid('recentGrid', 300)" class="action-icon-btn"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="recentGrid">
+      <!-- Populated via script -->
+    </div>
+  </section>
+
+  <!-- Newsletter & Footer -->
+  <footer class="newsletter-section">
+    <form class="newsletter-form">
+      <label class="newsletter-label">Join Our Newsletters</label>
+      <input type="email" placeholder="Email address" class="newsletter-input" required>
+      <button type="submit" class="btn-dark">SUBMIT</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" aria-label="Instagram (@auramode.ng)"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function renderCart() {
+      const items = store.cart;
+      const listEl = document.getElementById('cartItemsList');
+      const layoutEl = document.getElementById('cartContentLayout');
+      const emptyEl = document.getElementById('emptyCartView');
+
+      if (items.length === 0) {
+        layoutEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+        return;
+      }
+
+      layoutEl.style.display = 'grid';
+      emptyEl.style.display = 'none';
+
+      listEl.innerHTML = items.map((item, index) => `
+        <div class="cart-item-card">
+          <div class="cart-item-img">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="cart-item-details">
+            <h3>${item.name}</h3>
+            <div class="cart-item-meta">
+              Color: ${item.color}<br>
+              Size: ${item.size}<br>
+              Quantity: 
+              <span class="qty-stepper">
+                <button class="qty-btn" onclick="updateQty(${index}, -1)">▼</button>
+                <span>${item.qty}</span>
+                <button class="qty-btn" onclick="updateQty(${index}, 1)">▲</button>
+              </span>
+            </div>
+            <div class="cart-item-actions">
+              <a href="product-detail.html?id=${item.id}" style="font-size: 0.8rem; text-decoration: underline;">Edit</a>
+              <button onclick="removeItem(${index})" style="color: var(--text-secondary);" title="Remove Item"><i class="far fa-trash-can"></i></button>
+            </div>
+          </div>
+          <div style="font-weight: 700; font-size: 0.95rem;">
+            ${formatNaira(item.price * item.qty)}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('summarySubtotal').textContent = formatNaira(store.getSubtotal());
+      document.getElementById('summaryShipping').textContent = store.getShipping() === 0 ? 'FREE' : formatNaira(store.getShipping());
+      document.getElementById('summaryTotal').textContent = formatNaira(store.getTotal());
+    }
+
+    function updateQty(index, delta) {
+      store.updateQty(index, delta);
+      renderCart();
+    }
+
+    function removeItem(index) {
+      store.removeFromCart(index);
+      renderCart();
+      showToast('Item removed from cart');
+    }
+
+    function applyPromoCode() {
+      const input = document.getElementById('promoInput');
+      const msg = document.getElementById('promoMessage');
+      const res = store.applyPromo(input.value.trim());
+      if (res.success) {
+        msg.textContent = res.message;
+        msg.style.color = '#2e7d32';
+        renderCart();
+        showToast('Promo code applied successfully');
+      } else {
+        msg.textContent = res.message;
+        msg.style.color = '#d32f2f';
+      }
+    }
+
+    function renderRecent() {
+      const recentGrid = document.getElementById('recentGrid');
+      if (recentGrid) {
+        recentGrid.innerHTML = PRODUCTS.slice(0, 4).map(p => {
+          const isFav = store.isInWishlist(p.id);
+          return `
+            <div class="product-card">
+              <button class="wishlist-toggle-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, '${p.id}')">
+                <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+              </button>
+              ${p.badge ? `<div class="product-badges"><span class="badge-tag ${p.badge === 'NEW' ? 'badge-new' : 'badge-soldout'}">${p.badge}</span></div>` : ''}
+              <a href="product-detail.html?id=${p.id}" class="product-thumb-container">
+                <img src="${p.image}" alt="${p.name}">
+              </a>
+              <div class="product-card-meta">
+                <p class="product-color-count">${p.colors.length} Colors</p>
+                <h3 class="product-card-title"><a href="product-detail.html?id=${p.id}">${p.name}</a></h3>
+                <p class="product-card-subtitle">${p.subtitle}</p>
+                <div class="product-card-price-row">
+                  <span class="product-price">${formatNaira(p.price)}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function scrollGrid(gridId, offset) {
+      const el = document.getElementById(gridId);
+      if (el) el.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
+    function toggleFav(e, pid) {
+      e.stopPropagation();
+      store.toggleWishlist(pid);
+      renderRecent();
+      showToast(store.isInWishlist(pid) ? 'Saved to Wishlist' : 'Removed from Wishlist');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+      renderRecent();
+      window.addEventListener('auramode_store_updated', renderCart);
+    });
+  </script>
+</body>
+</html>
+
