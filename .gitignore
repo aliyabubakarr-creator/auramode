@@ -10,3 +10,4 @@ obj/
 ## SQLite temp files
 *.db-shm
 *.db-wal
+

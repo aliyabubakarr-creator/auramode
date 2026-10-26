@@ -7,6 +7,13 @@ using Auramode.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Dynamically bind to cloud provider PORT if provided (e.g. Render, Railway, Fly.io)
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+
 // Configure SQLite Database
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=auramode.db"));

@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: auramode
+    env: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
