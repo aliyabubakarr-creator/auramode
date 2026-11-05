@@ -116,3 +116,27 @@ public class PaymentVerifyRequest
     public string? OrderNo { get; set; }
 }
 
+public class UpdateOrderStatusRequest
+{
+    public string Status { get; set; } = string.Empty;
+}
+
+public class ProductUpsertRequest
+{
+    public string? Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Subtitle { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public string Category { get; set; } = "wears";
+    public string Collection { get; set; } = "SZN 1";
+    public string Badge { get; set; } = string.Empty;
+    public string Image { get; set; } = "assets/product-cosmic-white.png";
+    public List<string>? Gallery { get; set; }
+    public List<string>? Colors { get; set; }
+    public List<string>? Sizes { get; set; }
+    public bool InStock { get; set; } = true;
+    public int StockQuantity { get; set; } = 50;
+    public string Description { get; set; } = string.Empty;
+}
+
+

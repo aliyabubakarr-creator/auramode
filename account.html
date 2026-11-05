@@ -94,31 +94,40 @@
   <!-- Mobile Navigation Drawer -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
   <aside class="mobile-drawer" id="mobileDrawer">
-    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
-    <a href="index.html" class="drawer-logo">
-      <img src="assets/logo.png" alt="AURAMODE Logo">
-    </a>
+    <div class="drawer-header">
+      <a href="index.html" class="drawer-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+      <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="drawer-search-box">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search products..." class="header-search-input" aria-label="Search">
+    </div>
     <ul>
-      <li><a href="shop.html?tag=new">New In</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="shop.html?tag=collections">Collections</a></li>
-      <li><a href="shop.html?tag=sale">Sale</a></li>
-      <li><a href="wishlist.html">Wishlist</a></li>
-      <li><a href="account.html">My Account</a></li>
-      <li><a href="orders.html">My Orders</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="shop.html?tag=new">New In <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html">Shop <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html?tag=collections">Collections <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html?tag=sale">Sale <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="wishlist.html">Wishlist <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="account.html">My Account <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="orders.html">My Orders <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="about.html">About Us <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
     </ul>
+    <div class="mobile-drawer-footer">
+      <p>Â© AURAMODE 2026</p>
+    </div>
   </aside>
 
   <!-- Breadcrumbs -->
   <div class="breadcrumbs">
-    <a href="index.html">Home</a> <span>→</span> <span>My Account</span>
+    <a href="index.html">Home</a> <span>â†’</span> <span>My Account</span>
   </div>
 
-  <main style="max-width: 1440px; margin: 20px auto 60px; padding: 0 40px;">
+  <main style="max-width: 1440px; margin: 20px auto 60px; padding: 0 40px;" class="account-main">
     <h1 class="page-title">My Account</h1>
 
-    <div style="display: grid; grid-template-columns: 280px 1fr; gap: 60px;">
+    <div class="account-grid-layout">
       <!-- Left Tabs -->
       <div>
         <button class="account-sidebar-btn active" id="tabBtnDetails" onclick="switchTab('details')">
@@ -132,6 +141,9 @@
         </button>
         <a href="orders.html" class="account-sidebar-btn" style="margin-top: 24px; text-decoration: none;">
           <span>My Orders</span> <span>&gt;</span>
+        </a>
+        <a href="admin.html" class="account-sidebar-btn" style="background: #000; color: #fff; margin-top: 12px; text-decoration: none;">
+          <span>Admin Console</span> <i class="fas fa-shield-alt"></i>
         </a>
 
         <div style="margin-top: 40px;">
@@ -164,7 +176,7 @@
           <div class="account-row">
             <div>
               <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Password:</span>
-              <strong>••••••••••••</strong>
+              <strong>â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</strong>
             </div>
             <span class="edit-action-link" onclick="openEditModal('password')">Edit</span>
           </div>
@@ -240,7 +252,7 @@
       <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
   </footer>
 
   <script src="js/store.js"></script>

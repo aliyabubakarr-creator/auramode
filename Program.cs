@@ -434,4 +434,186 @@ app.MapPost("/api/payments/paystack/verify", async (PaymentVerifyRequest req, Pa
     });
 });
 
+// --- ADMIN API ENDPOINTS ---
+
+// Admin KPI Summary
+app.MapGet("/api/admin/stats", async (AppDbContext db) =>
+{
+    var orders = await db.Orders.ToListAsync();
+    var products = await db.Products.ToListAsync();
+
+    var totalRevenue = orders.Where(o => o.Status != "CANCELLED").Sum(o => o.Total);
+    var totalOrders = orders.Count;
+    var activeOrders = orders.Count(o => o.Status == "PROCESSING" || o.Status == "PAID" || o.Status == "SENT");
+    var totalProducts = products.Count;
+    var outOfStockCount = products.Count(p => !p.InStock || p.StockQuantity <= 0);
+    var lowStockCount = products.Count(p => p.InStock && p.StockQuantity > 0 && p.StockQuantity <= 10);
+
+    return Results.Ok(new
+    {
+        totalRevenue,
+        totalOrders,
+        activeOrders,
+        totalProducts,
+        outOfStockCount,
+        lowStockCount
+    });
+});
+
+// Admin Update Order Status
+app.MapPut("/api/orders/{orderNo}/status", async (string orderNo, UpdateOrderStatusRequest req, AppDbContext db) =>
+{
+    var order = await db.Orders.FirstOrDefaultAsync(o => o.OrderNo == orderNo);
+    if (order == null) return Results.NotFound(new { message = "Order not found" });
+
+    var validStatuses = new[] { "PROCESSING", "PAID", "SENT", "DELIVERED", "CANCELLED" };
+    var newStatus = req.Status.Trim().ToUpperInvariant();
+    if (!validStatuses.Contains(newStatus))
+    {
+        return Results.BadRequest(new { message = "Invalid status. Allowed: PROCESSING, PAID, SENT, DELIVERED, CANCELLED" });
+    }
+
+    order.Status = newStatus;
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new
+    {
+        success = true,
+        orderNo = order.OrderNo,
+        status = order.Status
+    });
+});
+
+// Admin Delete Order
+app.MapDelete("/api/orders/{orderNo}", async (string orderNo, AppDbContext db) =>
+{
+    var order = await db.Orders.FirstOrDefaultAsync(o => o.OrderNo == orderNo);
+    if (order == null) return Results.NotFound(new { message = "Order not found" });
+
+    db.Orders.Remove(order);
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new { success = true, message = "Order deleted successfully" });
+});
+
+// Admin Create Product
+app.MapPost("/api/products", async (ProductUpsertRequest req, AppDbContext db) =>
+{
+    if (string.IsNullOrWhiteSpace(req.Name))
+    {
+        return Results.BadRequest(new { message = "Product name is required" });
+    }
+
+    string id = !string.IsNullOrWhiteSpace(req.Id) 
+        ? req.Id.Trim().ToLowerInvariant() 
+        : req.Name.Trim().ToLowerInvariant().Replace(" ", "-") + "-" + Guid.NewGuid().ToString("N")[..4];
+
+    var exists = await db.Products.AnyAsync(p => p.Id == id);
+    if (exists)
+    {
+        return Results.BadRequest(new { message = "Product with this ID already exists" });
+    }
+
+    var gallery = req.Gallery != null && req.Gallery.Any() ? req.Gallery : new List<string> { req.Image };
+    var colors = req.Colors != null && req.Colors.Any() ? req.Colors : new List<string> { "White", "Black" };
+    var sizes = req.Sizes != null && req.Sizes.Any() ? req.Sizes : new List<string> { "S", "M", "L", "XL" };
+
+    var product = new ProductEntity
+    {
+        Id = id,
+        Name = req.Name.Trim(),
+        Subtitle = string.IsNullOrWhiteSpace(req.Subtitle) ? "T-Shirt" : req.Subtitle.Trim(),
+        Price = req.Price > 0 ? req.Price : 15000,
+        Category = string.IsNullOrWhiteSpace(req.Category) ? "wears" : req.Category.Trim().ToLowerInvariant(),
+        Collection = string.IsNullOrWhiteSpace(req.Collection) ? "SZN 1" : req.Collection.Trim(),
+        Badge = req.Badge?.Trim() ?? string.Empty,
+        Image = string.IsNullOrWhiteSpace(req.Image) ? "assets/product-cosmic-white.png" : req.Image.Trim(),
+        GalleryJson = JsonSerializer.Serialize(gallery),
+        ColorsJson = JsonSerializer.Serialize(colors),
+        SizesJson = JsonSerializer.Serialize(sizes),
+        InStock = req.InStock && req.StockQuantity > 0,
+        StockQuantity = req.StockQuantity,
+        Description = req.Description?.Trim() ?? string.Empty
+    };
+
+    db.Products.Add(product);
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new
+    {
+        success = true,
+        product = new
+        {
+            id = product.Id,
+            name = product.Name,
+            subtitle = product.Subtitle,
+            price = product.Price,
+            category = product.Category,
+            collection = product.Collection,
+            badge = product.Badge,
+            image = product.Image,
+            inStock = product.InStock,
+            stockQuantity = product.StockQuantity,
+            description = product.Description
+        }
+    });
+});
+
+// Admin Update Product
+app.MapPut("/api/products/{id}", async (string id, ProductUpsertRequest req, AppDbContext db) =>
+{
+    var p = await db.Products.FirstOrDefaultAsync(x => x.Id == id);
+    if (p == null) return Results.NotFound(new { message = "Product not found" });
+
+    if (!string.IsNullOrWhiteSpace(req.Name)) p.Name = req.Name.Trim();
+    if (!string.IsNullOrWhiteSpace(req.Subtitle)) p.Subtitle = req.Subtitle.Trim();
+    if (req.Price > 0) p.Price = req.Price;
+    if (!string.IsNullOrWhiteSpace(req.Category)) p.Category = req.Category.Trim().ToLowerInvariant();
+    if (!string.IsNullOrWhiteSpace(req.Collection)) p.Collection = req.Collection.Trim();
+    if (req.Badge != null) p.Badge = req.Badge.Trim();
+    if (!string.IsNullOrWhiteSpace(req.Image)) p.Image = req.Image.Trim();
+    if (req.Description != null) p.Description = req.Description.Trim();
+    
+    p.StockQuantity = req.StockQuantity;
+    p.InStock = req.InStock && req.StockQuantity > 0;
+    if (p.StockQuantity <= 0 && p.Badge == "") p.Badge = "SOLD OUT";
+
+    if (req.Gallery != null && req.Gallery.Any()) p.GalleryJson = JsonSerializer.Serialize(req.Gallery);
+    if (req.Colors != null && req.Colors.Any()) p.ColorsJson = JsonSerializer.Serialize(req.Colors);
+    if (req.Sizes != null && req.Sizes.Any()) p.SizesJson = JsonSerializer.Serialize(req.Sizes);
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new
+    {
+        success = true,
+        product = new
+        {
+            id = p.Id,
+            name = p.Name,
+            subtitle = p.Subtitle,
+            price = p.Price,
+            category = p.Category,
+            collection = p.Collection,
+            badge = p.Badge,
+            image = p.Image,
+            inStock = p.InStock,
+            stockQuantity = p.StockQuantity,
+            description = p.Description
+        }
+    });
+});
+
+// Admin Delete Product
+app.MapDelete("/api/products/{id}", async (string id, AppDbContext db) =>
+{
+    var product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
+    if (product == null) return Results.NotFound(new { message = "Product not found" });
+
+    db.Products.Remove(product);
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new { success = true, message = "Product deleted successfully" });
+});
+
 app.Run();

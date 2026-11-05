@@ -63,20 +63,29 @@
   <!-- Mobile Navigation Drawer -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
   <aside class="mobile-drawer" id="mobileDrawer">
-    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
-    <a href="index.html" class="drawer-logo">
-      <img src="assets/logo.png" alt="AURAMODE Logo">
-    </a>
+    <div class="drawer-header">
+      <a href="index.html" class="drawer-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+      <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="drawer-search-box">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search products..." class="header-search-input" aria-label="Search">
+    </div>
     <ul>
-      <li><a href="shop.html?tag=new">New In</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="shop.html?tag=collections">Collections</a></li>
-      <li><a href="shop.html?tag=sale">Sale</a></li>
-      <li><a href="wishlist.html">Wishlist</a></li>
-      <li><a href="account.html">My Account</a></li>
-      <li><a href="orders.html">My Orders</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="shop.html?tag=new">New In <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html">Shop <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html?tag=collections">Collections <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html?tag=sale">Sale <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="wishlist.html">Wishlist <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="account.html">My Account <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="orders.html">My Orders <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="about.html">About Us <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
     </ul>
+    <div class="mobile-drawer-footer">
+      <p>Â© AURAMODE 2026</p>
+    </div>
   </aside>
 
   <!-- Hero Section -->
@@ -109,17 +118,17 @@
 
   <!-- Shop By Category Section -->
   <section class="collections-section" style="margin-top: 60px;">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
-      <div>
+    <div class="section-header-row">
+      <div class="section-header-left">
         <h2 style="font-family: var(--font-serif); font-size: 1.5rem; display: inline-block; margin-right: 24px;">Shop By Category</h2>
-        <span style="font-size: 0.85rem; display: inline-flex; gap: 20px;">
+        <span class="category-links-inline">
           <a href="shop.html?category=wears" style="text-decoration: underline; font-weight: 700;">Wears</a>
           <a href="shop.html?category=accessories">Accessories</a>
-          <a href="shop.html?category=homedecor">Home Décor</a>
+          <a href="shop.html?category=homedecor">Home DÃ©cor</a>
           <a href="shop.html?category=periodicals">Periodicals</a>
         </span>
       </div>
-      <div>
+      <div class="section-header-right">
         <a href="shop.html" style="font-size: 0.85rem; text-decoration: underline; margin-right: 20px;">View All</a>
         <button onclick="scrollGrid('catGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
         <button onclick="scrollGrid('catGrid', 300)" class="action-icon-btn"><i class="fas fa-arrow-right"></i></button>
@@ -140,7 +149,7 @@
 
   <!-- Hot Picks Section -->
   <section class="collections-section">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;" class="section-header-row">
       <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">Hot Picks</h2>
       <div>
         <button onclick="scrollGrid('hotPicksGrid', -300)" class="action-icon-btn"><i class="fas fa-arrow-left"></i></button>
@@ -184,7 +193,7 @@
       <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
   </footer>
 
   <script src="js/store.js"></script>

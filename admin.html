@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Console | AURAMODE</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: #f8f8f8;">
+
+  <!-- Admin Top Bar -->
+  <header class="admin-header-bar">
+    <div class="admin-brand-left">
+      <a href="admin.html">
+        <img src="assets/logo.png" alt="AURAMODE" class="admin-logo-img">
+      </a>
+      <span class="admin-badge-pill">ADMIN CONSOLE</span>
+    </div>
+
+    <div class="admin-user-pill">
+      <span>Logged in: <strong>Sherlock P</strong></span>
+      <a href="index.html" class="btn-store-link">
+        <i class="fas fa-store"></i> View Live Store
+      </a>
+    </div>
+  </header>
+
+  <!-- Admin Sub-Navigation -->
+  <nav class="admin-subnav">
+    <button class="admin-nav-tab active" id="tabOverview" onclick="switchAdminTab('overview')">
+      <i class="fas fa-chart-line"></i> Overview
+    </button>
+    <button class="admin-nav-tab" id="tabOrders" onclick="switchAdminTab('orders')">
+      <i class="fas fa-box"></i> Orders & Fulfillment <span id="ordersNavBadge" style="background:#000; color:#fff; font-size:0.7rem; padding:2px 7px; border-radius:10px;">0</span>
+    </button>
+    <button class="admin-nav-tab" id="tabProducts" onclick="switchAdminTab('products')">
+      <i class="fas fa-tags"></i> Products & Inventory <span id="productsNavBadge" style="background:#eee; color:#333; font-size:0.7rem; padding:2px 7px; border-radius:10px;">0</span>
+    </button>
+  </nav>
+
+  <!-- Admin Main Container -->
+  <main class="admin-wrapper">
+
+    <!-- TAB 1: OVERVIEW -->
+    <section id="sectionOverview">
+      <!-- KPI Stats Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-title">Gross Revenue</span>
+          <span class="kpi-value" id="kpiRevenue">₦0</span>
+          <span class="kpi-sub">Excludes cancelled orders</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Total Orders</span>
+          <span class="kpi-value" id="kpiOrders">0</span>
+          <span class="kpi-sub">Lifetime orders count</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Active Orders</span>
+          <span class="kpi-value" id="kpiActiveOrders" style="color: #1565c0;">0</span>
+          <span class="kpi-sub">Processing / Paid / Sent</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Live Products</span>
+          <span class="kpi-value" id="kpiProducts">0</span>
+          <span class="kpi-sub">In active catalog</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Low Stock Alert</span>
+          <span class="kpi-value" id="kpiLowStock" style="color: #f57f17;">0</span>
+          <span class="kpi-sub">≤ 10 units remaining</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Out of Stock</span>
+          <span class="kpi-value" id="kpiOutStock" style="color: #c62828;">0</span>
+          <span class="kpi-sub">Sold out / zero stock</span>
+        </div>
+      </div>
+
+      <!-- Overview Recent Orders & Quick Actions -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2>Recent Orders</h2>
+            <button class="btn-admin-action" onclick="switchAdminTab('orders')">View All Orders →</button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Customer</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="overviewRecentOrdersBody">
+                <tr><td colspan="5" style="text-align: center; color: #888;">Loading recent orders...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2>Admin Quick Actions</h2>
+          </div>
+          <div style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+            <button class="btn-dark" style="padding: 12px; width: 100%; text-align: left;" onclick="openProductModal()">
+              <i class="fas fa-plus"></i> Add New Product
+            </button>
+            <button class="btn-outline-dark" style="padding: 12px; width: 100%; text-align: left;" onclick="switchAdminTab('orders')">
+              <i class="fas fa-shipping-fast"></i> Review Fulfillment Queue
+            </button>
+            <button class="btn-outline-dark" style="padding: 12px; width: 100%; text-align: left;" onclick="reloadAllData()">
+              <i class="fas fa-sync-alt"></i> Refresh All Data
+            </button>
+            <div style="margin-top: 16px; padding: 14px; background: #fafafa; border: 1px solid var(--border-light); font-size: 0.8rem; line-height: 1.6;">
+              <strong>Store Contact:</strong><br>
+              auramodeszn@gmail.com<br>
+              09024462630<br>
+              River Park Estate, Lugbe, Abuja
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: ORDERS & FULFILLMENT -->
+    <section id="sectionOrders" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2>Customer Orders & Fulfillment</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Track payments, update delivery status, and inspect shipping addresses.</p>
+          </div>
+          <div class="admin-filter-bar">
+            <input type="text" id="orderSearchInput" class="admin-search-input" placeholder="Search order #, customer or email..." oninput="filterOrders()">
+            <select id="orderStatusFilter" class="admin-select-filter" onchange="filterOrders()">
+              <option value="">All Statuses</option>
+              <option value="PAID">Paid</option>
+              <option value="PROCESSING">Processing</option>
+              <option value="SENT">Sent / Shipped</option>
+              <option value="DELIVERED">Delivered</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Payment Ref</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="8" style="text-align: center; color: #888;">Loading orders...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PRODUCTS & INVENTORY -->
+    <section id="sectionProducts" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2>Product Catalog & Inventory</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Update prices, manage stock quantities, and add new clothing drops.</p>
+          </div>
+          <div class="admin-filter-bar">
+            <input type="text" id="productSearchInput" class="admin-search-input" placeholder="Search title or subtitle..." oninput="filterProducts()">
+            <select id="productCategoryFilter" class="admin-select-filter" onchange="filterProducts()">
+              <option value="">All Categories</option>
+              <option value="wears">Wears</option>
+              <option value="accessories">Accessories</option>
+              <option value="periodicals">Periodicals</option>
+              <option value="homedecor">Home Decor</option>
+            </select>
+            <button class="btn-dark" style="padding: 9px 18px; font-size: 0.8rem;" onclick="openProductModal()">
+              <i class="fas fa-plus"></i> NEW PRODUCT
+            </button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Details</th>
+                <th>Category / Drop</th>
+                <th>Price</th>
+                <th>Stock Units</th>
+                <th>Availability</th>
+                <th>Badge</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <tr><td colspan="8" style="text-align: center; color: #888;">Loading inventory...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ORDER DETAIL MODAL -->
+  <div class="modal-overlay" id="orderDetailModal">
+    <div class="modal-content" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-light); padding-bottom: 16px; margin-bottom: 20px;">
+        <div>
+          <h2 id="modalDetailOrderNo" style="font-family: var(--font-serif); font-size: 1.4rem;">Order #22445588</h2>
+          <span id="modalDetailOrderDate" style="font-size: 0.8rem; color: var(--text-secondary);">Date: 20/10/2026</span>
+        </div>
+        <span id="modalDetailStatusBadge" class="status-pill status-paid">PAID</span>
+      </div>
+
+      <!-- Quick Status Changer Form -->
+      <div style="background: #fafafa; border: 1px solid var(--border-light); padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Update Fulfillment Status:</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <select id="modalStatusSelect" class="admin-select-filter" style="padding: 6px 12px;">
+            <option value="PROCESSING">Processing</option>
+            <option value="PAID">Paid</option>
+            <option value="SENT">Sent / Shipped</option>
+            <option value="DELIVERED">Delivered</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+          <button class="btn-dark" style="padding: 6px 16px; font-size: 0.8rem;" onclick="saveOrderStatusFromModal()">SAVE STATUS</button>
+        </div>
+      </div>
+
+      <!-- Customer & Shipping Details -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6;">
+        <div style="background: #fff; border: 1px solid var(--border-light); padding: 16px;">
+          <h3 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Customer Information</h3>
+          <p id="modalCustName"><strong>Sherlock P</strong></p>
+          <p id="modalCustEmail">auramodeszn@gmail.com</p>
+          <p id="modalCustPhone">09024462630</p>
+        </div>
+
+        <div style="background: #fff; border: 1px solid var(--border-light); padding: 16px;">
+          <h3 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Shipping Destination</h3>
+          <p id="modalCustAddress">River Park Estate, Lugbe</p>
+          <p id="modalCustCityState">Abuja, FCT</p>
+          <p id="modalCustMethod">Method: Standard (Nigeria)</p>
+          <p id="modalPayRef" style="color: #666; font-size: 0.75rem; margin-top: 4px;">Ref: —</p>
+        </div>
+      </div>
+
+      <!-- Line Items -->
+      <h3 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Purchased Items</h3>
+      <div id="modalItemsList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <!-- Injected via script -->
+      </div>
+
+      <div style="border-top: 1px solid var(--border-light); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn-admin-danger btn-admin-action" onclick="deleteCurrentOrder()"><i class="fas fa-trash"></i> Delete Order</button>
+        <div style="font-size: 1.1rem; font-weight: 700;">
+          Total: <span id="modalOrderTotal" style="font-family: var(--font-serif); font-size: 1.3rem;">₦0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT PRODUCT MODAL -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-content" style="max-width: 640px; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close-btn" onclick="closeProductModal()"><i class="fas fa-times"></i></button>
+      <h2 id="productModalTitle" style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 20px;">Add New Product</h2>
+
+      <form onsubmit="handleProductSubmit(event)">
+        <input type="hidden" id="editProductId">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Product Title*</label>
+            <input type="text" id="prodName" class="form-input" placeholder="e.g. Signature Noir Tee" required>
+          </div>
+          <div class="form-group">
+            <label>Subtitle / Sub-category</label>
+            <input type="text" id="prodSubtitle" class="form-input" placeholder="e.g. Heavyweight Graphic Tee" value="T-Shirt">
+          </div>
+        </div>
+
+        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-group">
+            <label>Price (₦ NGN)*</label>
+            <input type="number" id="prodPrice" class="form-input" placeholder="15000" min="1000" step="500" required>
+          </div>
+          <div class="form-group">
+            <label>Stock Quantity*</label>
+            <input type="number" id="prodStock" class="form-input" placeholder="50" min="0" required>
+          </div>
+          <div class="form-group">
+            <label>Badge</label>
+            <select id="prodBadge" class="form-input">
+              <option value="">None</option>
+              <option value="NEW">NEW</option>
+              <option value="SOLD OUT">SOLD OUT</option>
+              <option value="EXCLUSIVE">EXCLUSIVE</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="prodCategory" class="form-input">
+              <option value="wears">Wears</option>
+              <option value="accessories">Accessories</option>
+              <option value="periodicals">Periodicals</option>
+              <option value="homedecor">Home Decor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Collection / Season</label>
+            <select id="prodCollection" class="form-input">
+              <option value="SZN 1">SZN 1</option>
+              <option value="SZN 2">SZN 2</option>
+              <option value="SZN 3">SZN 3</option>
+              <option value="SZN 4">SZN 4</option>
+              <option value="ARCHIVE">Archive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Select Product Image (Brand Asset)*</label>
+          <select id="prodImageSelect" class="form-input" onchange="updateImagePreview(this.value)">
+            <option value="assets/product-cosmic-white.png">Cosmic Tee (White)</option>
+            <option value="assets/product-models-white.png">Campaign Models Tee (White)</option>
+            <option value="assets/product-cap.png">Trucker Cap (Grey/White)</option>
+            <option value="assets/product-seated-black.png">Vintage Black Tee</option>
+            <option value="assets/product-boxlogo-black.png">Box Logo Tee (Black)</option>
+            <option value="assets/product-nature-white.png">Botanical Archive Tee</option>
+            <option value="assets/product-target-white.png">Target Crosshair Tee</option>
+            <option value="assets/product-grey-tee.png">Heavyweight Grey Tee</option>
+          </select>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+          <img id="modalImgPreview" src="assets/product-cosmic-white.png" alt="Preview" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ddd; background: #fafafa;">
+          <label class="checkbox-label" style="margin-bottom: 0;">
+            <input type="checkbox" id="prodInStock" checked>
+            <span>Product is Available for Purchase (In Stock)</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Product Description</label>
+          <textarea id="prodDescription" class="form-input" rows="3" placeholder="Crafted from heavyweight combed cotton..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+          <button type="button" class="btn-outline-dark" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn-dark" style="padding: 12px 28px;">SAVE PRODUCT</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="newsletter-section">
+    <p class="footer-copy">AURAMODE ADMIN CONSOLE &copy; 2026. CONFIDENTIAL &bull; AUTHORIZED ACCESS ONLY</p>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let globalOrders = [];
+    let globalProducts = [];
+    let currentSelectedOrderNo = null;
+
+    // Switch Admin Tabs
+    function switchAdminTab(tab) {
+      document.getElementById('sectionOverview').style.display = tab === 'overview' ? 'block' : 'none';
+      document.getElementById('sectionOrders').style.display = tab === 'orders' ? 'block' : 'none';
+      document.getElementById('sectionProducts').style.display = tab === 'products' ? 'block' : 'none';
+
+      document.getElementById('tabOverview').classList.toggle('active', tab === 'overview');
+      document.getElementById('tabOrders').classList.toggle('active', tab === 'orders');
+      document.getElementById('tabProducts').classList.toggle('active', tab === 'products');
+    }
+
+    // Load Admin KPI Summary
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/admin/stats');
+        if (res.ok) {
+          const stats = await res.json();
+          document.getElementById('kpiRevenue').textContent = formatNaira(stats.totalRevenue || 0);
+          document.getElementById('kpiOrders').textContent = stats.totalOrders || 0;
+          document.getElementById('kpiActiveOrders').textContent = stats.activeOrders || 0;
+          document.getElementById('kpiProducts').textContent = stats.totalProducts || 0;
+          document.getElementById('kpiLowStock').textContent = stats.lowStockCount || 0;
+          document.getElementById('kpiOutStock').textContent = stats.outOfStockCount || 0;
+        }
+      } catch (err) {
+        console.error('Failed to load stats', err);
+      }
+    }
+
+    // Load Orders
+    async function loadOrders() {
+      try {
+        const res = await fetch('/api/orders');
+        if (res.ok) {
+          globalOrders = await res.json();
+          document.getElementById('ordersNavBadge').textContent = globalOrders.length;
+          renderOrdersTable(globalOrders);
+          renderRecentOrders(globalOrders.slice(0, 5));
+        }
+      } catch (err) {
+        console.error('Failed to load orders', err);
+      }
+    }
+
+    // Render Recent Orders in Overview
+    function renderRecentOrders(orders) {
+      const tbody = document.getElementById('overviewRecentOrdersBody');
+      if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #888;">No recent orders found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td><strong>#${o.orderNo}</strong><br><span style="color:#888; font-size:0.75rem;">${o.date}</span></td>
+          <td>${o.shipping.firstName} ${o.shipping.lastName}<br><span style="color:#888; font-size:0.75rem;">${o.shipping.phone || ''}</span></td>
+          <td><strong>${formatNaira(o.total)}</strong></td>
+          <td><span class="status-pill status-${(o.status||'').toLowerCase()}">${o.status}</span></td>
+          <td><button class="btn-admin-action" onclick="openOrderDetailModal('${o.orderNo}')">Inspect</button></td>
+        </tr>
+      `).join('');
+    }
+
+    // Render Full Orders Table
+    function renderOrdersTable(orders) {
+      const tbody = document.getElementById('ordersTableBody');
+      if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #888; padding: 30px;">No orders match the filter criteria.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => {
+        const itemsCount = (o.items || []).reduce((acc, it) => acc + (it.qty || 1), 0);
+        const firstItem = (o.items && o.items[0]) ? o.items[0].name : 'Item';
+        const moreCount = (o.items && o.items.length > 1) ? ` +${o.items.length - 1} more` : '';
+
+        return `
+          <tr>
+            <td><strong>#${o.orderNo}</strong></td>
+            <td>${o.date}</td>
+            <td>
+              <strong>${o.shipping.firstName} ${o.shipping.lastName}</strong><br>
+              <span style="color: #666; font-size: 0.75rem;">${o.shipping.city}, ${o.shipping.state}</span>
+            </td>
+            <td>
+              <span title="${(o.items||[]).map(i => i.name).join(', ')}">${firstItem}${moreCount} (${itemsCount})</span>
+            </td>
+            <td><strong>${formatNaira(o.total)}</strong></td>
+            <td><code style="font-size:0.75rem;">${o.paymentReference || '—'}</code></td>
+            <td>
+              <select class="admin-select-filter status-${(o.status||'').toLowerCase()}" style="font-weight: 700; padding: 4px 8px; font-size: 0.75rem;" onchange="updateOrderStatusInline('${o.orderNo}', this.value)">
+                <option value="PROCESSING" ${o.status === 'PROCESSING' ? 'selected' : ''}>Processing</option>
+                <option value="PAID" ${o.status === 'PAID' ? 'selected' : ''}>Paid</option>
+                <option value="SENT" ${o.status === 'SENT' ? 'selected' : ''}>Sent / Shipped</option>
+                <option value="DELIVERED" ${o.status === 'DELIVERED' ? 'selected' : ''}>Delivered</option>
+                <option value="CANCELLED" ${o.status === 'CANCELLED' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+            <td>
+              <div class="admin-actions-cell">
+                <button class="btn-admin-action" onclick="openOrderDetailModal('${o.orderNo}')"><i class="fas fa-eye"></i> Details</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Filter Orders
+    function filterOrders() {
+      const query = document.getElementById('orderSearchInput').value.toLowerCase().trim();
+      const status = document.getElementById('orderStatusFilter').value;
+
+      const filtered = globalOrders.filter(o => {
+        const matchesQuery = !query || 
+          o.orderNo.toLowerCase().includes(query) || 
+          `${o.shipping.firstName} ${o.shipping.lastName}`.toLowerCase().includes(query) ||
+          (o.paymentReference && o.paymentReference.toLowerCase().includes(query));
+
+        const matchesStatus = !status || o.status === status;
+        return matchesQuery && matchesStatus;
+      });
+
+      renderOrdersTable(filtered);
+    }
+
+    // Open Order Detail Modal
+    function openOrderDetailModal(orderNo) {
+      const order = globalOrders.find(o => o.orderNo === orderNo);
+      if (!order) return;
+
+      currentSelectedOrderNo = orderNo;
+      document.getElementById('modalDetailOrderNo').textContent = `Order #${order.orderNo}`;
+      document.getElementById('modalDetailOrderDate').textContent = `Date: ${order.date}`;
+      
+      const badge = document.getElementById('modalDetailStatusBadge');
+      badge.className = `status-pill status-${(order.status||'').toLowerCase()}`;
+      badge.textContent = order.status;
+
+      document.getElementById('modalStatusSelect').value = order.status;
+      document.getElementById('modalCustName').innerHTML = `<strong>${order.shipping.firstName} ${order.shipping.lastName}</strong>`;
+      document.getElementById('modalCustEmail').textContent = order.email || 'auramodeszn@gmail.com';
+      document.getElementById('modalCustPhone').textContent = order.shipping.phone || '—';
+      document.getElementById('modalCustAddress').textContent = order.shipping.address || '—';
+      document.getElementById('modalCustCityState').textContent = `${order.shipping.city || ''}, ${order.shipping.state || ''}`;
+      document.getElementById('modalCustMethod').textContent = `Method: ${(order.shipping.delivery || 'standard').toUpperCase()} (${order.paymentMethod || 'Paystack'})`;
+      document.getElementById('modalPayRef').textContent = `Reference: ${order.paymentReference || 'None'}`;
+      document.getElementById('modalOrderTotal').textContent = formatNaira(order.total);
+
+      const itemsList = document.getElementById('modalItemsList');
+      itemsList.innerHTML = (order.items || []).map(it => `
+        <div style="display: flex; gap: 14px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+          <img src="${it.image}" alt="${it.name}" style="width: 48px; height: 48px; object-fit: contain; background: #fafafa; border: 1px solid #eee;">
+          <div style="flex: 1; font-size: 0.85rem;">
+            <strong>${it.name}</strong><br>
+            <span style="color: #666; font-size: 0.78rem;">Color: ${it.color || 'White'} &bull; Size: ${it.size || 'M'} &bull; Qty: ${it.qty || 1}</span>
+          </div>
+          <div style="font-weight: 700; font-size: 0.9rem;">
+            ${formatNaira((it.price || 15000) * (it.qty || 1))}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('orderDetailModal').style.display = 'flex';
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderDetailModal').style.display = 'none';
+      currentSelectedOrderNo = null;
+    }
+
+    // Update Status From Modal
+    async function saveOrderStatusFromModal() {
+      if (!currentSelectedOrderNo) return;
+      const newStatus = document.getElementById('modalStatusSelect').value;
+      await performStatusUpdate(currentSelectedOrderNo, newStatus);
+      const order = globalOrders.find(o => o.orderNo === currentSelectedOrderNo);
+      if (order) {
+        order.status = newStatus;
+        const badge = document.getElementById('modalDetailStatusBadge');
+        badge.className = `status-pill status-${newStatus.toLowerCase()}`;
+        badge.textContent = newStatus;
+      }
+    }
+
+    // Update Status Inline
+    async function updateOrderStatusInline(orderNo, newStatus) {
+      await performStatusUpdate(orderNo, newStatus);
+    }
+
+    async function performStatusUpdate(orderNo, newStatus) {
+      try {
+        const res = await fetch(`/api/orders/${orderNo}/status`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (res.ok) {
+          showToast(`Order #${orderNo} status set to ${newStatus}`);
+          await loadStats();
+          await loadOrders();
+        } else {
+          showToast('Failed to update status');
+        }
+      } catch (err) {
+        showToast('Error communicating with server');
+      }
+    }
+
+    async function deleteCurrentOrder() {
+      if (!currentSelectedOrderNo) return;
+      if (!confirm(`Are you sure you want to permanently delete Order #${currentSelectedOrderNo}?`)) return;
+
+      try {
+        const res = await fetch(`/api/orders/${currentSelectedOrderNo}`, { method: 'DELETE' });
+        if (res.ok) {
+          showToast(`Order #${currentSelectedOrderNo} deleted`);
+          closeOrderModal();
+          await loadStats();
+          await loadOrders();
+        }
+      } catch (err) {
+        showToast('Error deleting order');
+      }
+    }
+
+    // --- PRODUCTS & INVENTORY ---
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/products');
+        if (res.ok) {
+          globalProducts = await res.json();
+          document.getElementById('productsNavBadge').textContent = globalProducts.length;
+          renderProductsTable(globalProducts);
+        }
+      } catch (err) {
+        console.error('Failed to load products', err);
+      }
+    }
+
+    function renderProductsTable(products) {
+      const tbody = document.getElementById('productsTableBody');
+      if (products.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #888; padding: 30px;">No products found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = products.map(p => {
+        let stockClass = 'stock-in';
+        let stockLabel = `${p.stockQuantity} in stock`;
+        if (p.stockQuantity <= 0 || !p.inStock) {
+          stockClass = 'stock-out';
+          stockLabel = 'OUT OF STOCK';
+        } else if (p.stockQuantity <= 10) {
+          stockClass = 'stock-low';
+          stockLabel = `${p.stockQuantity} units left`;
+        }
+
+        return `
+          <tr>
+            <td>
+              <img src="${p.image}" alt="${p.name}" class="admin-thumb">
+            </td>
+            <td>
+              <strong>${p.name}</strong><br>
+              <span style="color:#777; font-size:0.75rem;">${p.subtitle}</span>
+            </td>
+            <td>
+              <span style="text-transform: capitalize;">${p.category}</span> &bull; <strong>${p.collection}</strong>
+            </td>
+            <td>
+              <strong>${formatNaira(p.price)}</strong>
+            </td>
+            <td>
+              <span class="${stockClass}">${stockLabel}</span>
+            </td>
+            <td>
+              <label class="checkbox-label" style="margin-bottom:0;">
+                <input type="checkbox" ${p.inStock ? 'checked' : ''} onchange="toggleProductInStock('${p.id}', this.checked)">
+                <span style="font-size:0.75rem;">${p.inStock ? 'Available' : 'Disabled'}</span>
+              </label>
+            </td>
+            <td>
+              ${p.badge ? `<span class="badge-tag" style="background:#000; color:#fff; font-size:0.65rem;">${p.badge}</span>` : '—'}
+            </td>
+            <td>
+              <div class="admin-actions-cell">
+                <button class="btn-admin-action" onclick="openProductModal('${p.id}')"><i class="fas fa-edit"></i> Edit</button>
+                <button class="btn-admin-action btn-admin-danger" onclick="deleteProduct('${p.id}', '${p.name.replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterProducts() {
+      const q = document.getElementById('productSearchInput').value.toLowerCase().trim();
+      const cat = document.getElementById('productCategoryFilter').value;
+
+      const filtered = globalProducts.filter(p => {
+        const matchesQuery = !q || p.name.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q);
+        const matchesCat = !cat || p.category.toLowerCase() === cat.toLowerCase();
+        return matchesQuery && matchesCat;
+      });
+
+      renderProductsTable(filtered);
+    }
+
+    // Toggle In-Stock Status directly
+    async function toggleProductInStock(id, inStock) {
+      const p = globalProducts.find(x => x.id === id);
+      if (!p) return;
+
+      try {
+        const res = await fetch(`/api/products/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...p,
+            inStock: inStock
+          })
+        });
+        if (res.ok) {
+          showToast(`Updated ${p.name} stock status`);
+          await loadStats();
+          await loadProducts();
+        }
+      } catch (err) {
+        showToast('Failed to update product availability');
+      }
+    }
+
+    // Open Product Modal (Add or Edit)
+    function openProductModal(id = null) {
+      const title = document.getElementById('productModalTitle');
+      const editId = document.getElementById('editProductId');
+
+      if (id) {
+        const p = globalProducts.find(x => x.id === id);
+        if (!p) return;
+        title.textContent = `Edit Product: ${p.name}`;
+        editId.value = p.id;
+        document.getElementById('prodName').value = p.name;
+        document.getElementById('prodSubtitle').value = p.subtitle;
+        document.getElementById('prodPrice').value = p.price;
+        document.getElementById('prodStock').value = p.stockQuantity;
+        document.getElementById('prodBadge').value = p.badge || '';
+        document.getElementById('prodCategory').value = p.category;
+        document.getElementById('prodCollection').value = p.collection;
+        document.getElementById('prodImageSelect').value = p.image;
+        document.getElementById('modalImgPreview').src = p.image;
+        document.getElementById('prodInStock').checked = p.inStock;
+        document.getElementById('prodDescription').value = p.description || '';
+      } else {
+        title.textContent = 'Add New Product Drop';
+        editId.value = '';
+        document.getElementById('prodName').value = '';
+        document.getElementById('prodSubtitle').value = 'T-Shirt';
+        document.getElementById('prodPrice').value = 15000;
+        document.getElementById('prodStock').value = 50;
+        document.getElementById('prodBadge').value = 'NEW';
+        document.getElementById('prodCategory').value = 'wears';
+        document.getElementById('prodCollection').value = 'SZN 2';
+        document.getElementById('prodImageSelect').value = 'assets/product-cosmic-white.png';
+        document.getElementById('modalImgPreview').src = 'assets/product-cosmic-white.png';
+        document.getElementById('prodInStock').checked = true;
+        document.getElementById('prodDescription').value = 'Signature heavyweight combed cotton piece crafted with custom relaxed silhouette.';
+      }
+
+      document.getElementById('productModal').style.display = 'flex';
+    }
+
+    function updateImagePreview(val) {
+      document.getElementById('modalImgPreview').src = val;
+    }
+
+    function closeProductModal() {
+      document.getElementById('productModal').style.display = 'none';
+    }
+
+    // Save or Update Product
+    async function handleProductSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('editProductId').value.trim();
+      const name = document.getElementById('prodName').value.trim();
+      const subtitle = document.getElementById('prodSubtitle').value.trim();
+      const price = parseFloat(document.getElementById('prodPrice').value);
+      const stock = parseInt(document.getElementById('prodStock').value, 10);
+      const badge = document.getElementById('prodBadge').value;
+      const category = document.getElementById('prodCategory').value;
+      const collection = document.getElementById('prodCollection').value;
+      const image = document.getElementById('prodImageSelect').value;
+      const inStock = document.getElementById('prodInStock').checked;
+      const desc = document.getElementById('prodDescription').value.trim();
+
+      const payload = {
+        name: name,
+        subtitle: subtitle,
+        price: price,
+        stockQuantity: stock,
+        badge: badge,
+        category: category,
+        collection: collection,
+        image: image,
+        inStock: inStock,
+        description: desc
+      };
+
+      try {
+        let res;
+        if (id) {
+          res = await fetch(`/api/products/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        if (res.ok) {
+          showToast(id ? `Updated ${name} successfully!` : `Created ${name} successfully!`);
+          closeProductModal();
+          await loadStats();
+          await loadProducts();
+        } else {
+          const err = await res.json();
+          showToast(err.message || 'Failed to save product');
+        }
+      } catch (err) {
+        showToast('Error connecting to server');
+      }
+    }
+
+    // Delete Product
+    async function deleteProduct(id, name) {
+      if (!confirm(`Are you sure you want to permanently delete "${name}" from the store catalog?`)) return;
+
+      try {
+        const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          showToast(`Deleted ${name}`);
+          await loadStats();
+          await loadProducts();
+        } else {
+          showToast('Failed to delete product');
+        }
+      } catch (err) {
+        showToast('Error communicating with server');
+      }
+    }
+
+    async function reloadAllData() {
+      showToast('Refreshing all data...');
+      await Promise.all([loadStats(), loadOrders(), loadProducts()]);
+      showToast('Dashboard up to date');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      loadOrders();
+      loadProducts();
+    });
+  </script>
+</body>
+</html>

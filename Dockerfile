@@ -17,3 +17,4 @@ ENV ASPNETCORE_ENVIRONMENT=Production
 COPY --from=build /app/publish .
 
 ENTRYPOINT ["dotnet", "auramode.dll"]
+

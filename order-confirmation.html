@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,25 +22,34 @@
   <!-- Mobile Navigation Drawer -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
   <aside class="mobile-drawer" id="mobileDrawer">
-    <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
-    <a href="index.html" class="drawer-logo">
-      <img src="assets/logo.png" alt="AURAMODE Logo">
-    </a>
+    <div class="drawer-header">
+      <a href="index.html" class="drawer-logo">
+        <img src="assets/logo.png" alt="AURAMODE Logo">
+      </a>
+      <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close Navigation"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="drawer-search-box">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search products..." class="header-search-input" aria-label="Search">
+    </div>
     <ul>
-      <li><a href="shop.html?tag=new">New In</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="shop.html?tag=collections">Collections</a></li>
-      <li><a href="shop.html?tag=sale">Sale</a></li>
-      <li><a href="wishlist.html">Wishlist</a></li>
-      <li><a href="account.html">My Account</a></li>
-      <li><a href="orders.html">My Orders</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="shop.html?tag=new">New In <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html">Shop <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html?tag=collections">Collections <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="shop.html?tag=sale">Sale <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="wishlist.html">Wishlist <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="account.html">My Account <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="orders.html">My Orders <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
+      <li><a href="about.html">About Us <i class="fas fa-chevron-right" style="font-size:0.65rem;opacity:0.4;"></i></a></li>
     </ul>
+    <div class="mobile-drawer-footer">
+      <p>Â© AURAMODE 2026</p>
+    </div>
   </aside>
 
   <!-- Checkout Stepper Breadcrumbs -->
   <div class="breadcrumbs" style="text-align: center; margin-top: 16px;">
-    <a href="cart.html">Cart</a> → <span>Delivery</span> → <span style="text-decoration: underline; font-weight: 700; color: #000;">Confirmation</span> → <span>Order Complete</span>
+    <a href="cart.html">Cart</a> â†’ <span>Delivery</span> â†’ <span style="text-decoration: underline; font-weight: 700; color: #000;">Confirmation</span> â†’ <span>Order Complete</span>
   </div>
 
   <h1 class="page-title" style="text-align: center; margin: 20px 0 10px;">Checkout</h1>
@@ -90,7 +99,7 @@
   </main>
 
   <footer class="newsletter-section">
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
   </footer>
 
   <script src="js/store.js"></script>
