@@ -100,19 +100,19 @@
   </aside>
 
   <main style="max-width: 540px; margin: 60px auto; padding: 0 20px; text-align: center;">
-    <h2 style="font-family: var(--font-serif); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px;">AURAMODE ACCOUNT</h2>
-    <h1 style="font-family: var(--font-serif); font-size: 1.7rem; margin-bottom: 30px;">Sign In</h1>
+    <h2 style="font-family: var(--font-serif); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px;">MEMBER SIGN IN</h2>
+    <h1 style="font-family: var(--font-serif); font-size: 1.7rem; margin-bottom: 30px;">Welcome Back</h1>
 
-    <form style="text-align: left;" onsubmit="handleLogin(event)">
+    <form style="text-align: left;" onsubmit="handleLogin(event)" autocomplete="off">
       <div class="form-group">
         <label>Email address*</label>
-        <input type="email" id="loginEmail" class="form-input" placeholder="name@example.com" oninput="validateLoginEmail(this)" required autocomplete="email">
+        <input type="email" id="loginEmail" class="form-input" placeholder="name@example.com" oninput="validateLoginEmail(this)" required autocomplete="off">
         <div id="loginEmailErr" class="form-error-note" style="display: none;">[Enter correct email e.g. example@email.com]</div>
       </div>
 
       <div class="form-group" style="position: relative;">
         <label>Password*</label>
-        <input type="password" id="loginPassword" class="form-input" placeholder="Enter password" required autocomplete="current-password">
+        <input type="password" id="loginPassword" class="form-input" placeholder="Enter password" required autocomplete="new-password">
         <button type="button" onclick="togglePassVisibility()" style="position: absolute; right: 14px; top: 32px; color: #888;" aria-label="Toggle password visibility">
           <i class="far fa-eye" id="eyeIcon"></i>
         </button>
@@ -178,6 +178,14 @@
         icon.className = 'far fa-eye';
       }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Clear any browser-autofilled credentials on page load
+      const em = document.getElementById('loginEmail');
+      const pw = document.getElementById('loginPassword');
+      if (em) em.value = '';
+      if (pw) pw.value = '';
+    });
 
     async function handleLogin(e) {
       e.preventDefault();
