@@ -57,9 +57,29 @@ function toggleMobileMenu() {
   document.body.style.overflow = (drawer && drawer.classList.contains('open')) ? 'hidden' : '';
 }
 
+// Floating WhatsApp Concierge Helper
+function initWhatsAppConcierge() {
+  if (document.querySelector('.whatsapp-floating-btn')) return;
+  if (window.location.pathname.toLowerCase().includes('admin.html')) return;
+
+  const btn = document.createElement('a');
+  btn.href = 'https://wa.me/2349024462630?text=' + encodeURIComponent('Hi AURAMODE, I would like to inquire about sizing, order status, or custom dispatch.');
+  btn.className = 'whatsapp-floating-btn';
+  btn.target = '_blank';
+  btn.rel = 'noopener noreferrer';
+  btn.setAttribute('aria-label', 'Chat with AURAMODE Concierge on WhatsApp');
+  btn.innerHTML = `
+    <span class="whatsapp-status-dot"></span>
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-label">Concierge</span>
+  `;
+  document.body.appendChild(btn);
+}
+
 // Setup common listeners
 document.addEventListener('DOMContentLoaded', () => {
   updateHeaderBadges();
+  initWhatsAppConcierge();
 
   window.addEventListener('auramode_store_updated', () => {
     updateHeaderBadges();

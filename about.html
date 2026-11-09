@@ -1,9 +1,26 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us | AURAMODE</title>
+  <title>About Us, Shipping & Returns | AURAMODE</title>
+  <meta name="description" content="Learn about AURAMODE — contemporary avant-garde luxury streetwear from Abuja, Nigeria. Review our 24h Abuja dispatch, interstate shipping, and 7-day exchange policies.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- OpenGraph / Social Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AURAMODE">
+  <meta property="og:title" content="About Us, Shipping & Returns | AURAMODE">
+  <meta property="og:description" content="Contemporary avant-garde streetwear handcrafted in Abuja, Nigeria. Review dispatch timelines and return policies.">
+  <meta property="og:image" content="https://auramode.onrender.com/assets/banner-seated.png">
+  <meta property="og:url" content="https://auramode.onrender.com/about.html">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Us, Shipping & Returns | AURAMODE">
+  <meta name="twitter:description" content="Contemporary avant-garde streetwear handcrafted in Abuja, Nigeria.">
+  <meta name="twitter:image" content="https://auramode.onrender.com/assets/banner-seated.png">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="assets/logo.png">
@@ -19,8 +36,10 @@
   <header class="site-header">
     <div class="header-top">
       <a href="about.html" style="font-weight: 700; text-decoration: underline;">About Us</a>
+      <a href="about.html#shipping">Shipping</a>
+      <a href="about.html#returns">Returns</a>
       <a href="about.html#help">Help</a>
-      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+      <a href="login.html" class="user-greeting">Sign In <i class="far fa-user"></i></a>
     </div>
     <div class="header-main">
       <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
@@ -113,13 +132,71 @@
       Embracing diversity and inclusivity, AURAMODE believes high fashion must empower the wearer. We celebrate community, underground culture, and bold individuality with every drop.
     </p>
 
-    <div id="help" style="border-top: 1px solid var(--border-light); padding-top: 40px; margin-top: 60px;">
-      <h2 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 16px;">Customer Support & Help</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 12px;">Need assistance with orders, sizing, or international delivery?</p>
+    <!-- Shipping & Delivery Policy -->
+    <div id="shipping" class="policy-card" style="margin-top: 50px;">
+      <span class="policy-badge">Shipping & Delivery</span>
+      <h2 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 14px;">Nigeria & Worldwide Dispatch</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">
+        All orders are packed in custom branded archival dust bags and processed within 24 hours of payment verification.
+      </p>
+
+      <div class="policy-timeline-row">
+        <div>
+          <strong>Abuja Express (FCT)</strong>
+          <div style="color: #666; font-size: 0.8rem;">Direct courier to your doorstep</div>
+        </div>
+        <div style="text-align: right;">
+          <strong>Same-Day / 24 Hours</strong>
+          <div style="color: #2e7d32; font-size: 0.8rem; font-weight: 600;">₦3,500 (Free for Members)</div>
+        </div>
+      </div>
+
+      <div class="policy-timeline-row">
+        <div>
+          <strong>Interstate Express (Lagos, Port Harcourt, Kano & All States)</strong>
+          <div style="color: #666; font-size: 0.8rem;">Tracked delivery via DHL Express / GIG Logistics</div>
+        </div>
+        <div style="text-align: right;">
+          <strong>2 – 4 Business Days</strong>
+          <div style="color: #2e7d32; font-size: 0.8rem; font-weight: 600;">₦5,000 (Free over ₦50,000)</div>
+        </div>
+      </div>
+
+      <div class="policy-timeline-row">
+        <div>
+          <strong>International Worldwide Delivery</strong>
+          <div style="color: #666; font-size: 0.8rem;">UK, US, Canada, Europe & Rest of World via DHL Worldwide</div>
+        </div>
+        <div style="text-align: right;">
+          <strong>5 – 8 Business Days</strong>
+          <div style="color: #666; font-size: 0.8rem;">Calculated at checkout</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Returns & Exchanges Policy -->
+    <div id="returns" class="policy-card">
+      <span class="policy-badge">Returns & Size Swaps</span>
+      <h2 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 14px;">7-Day Streetwear Exchange Guarantee</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.9rem;">
+        We want you to wear AURAMODE with total confidence. If your garment does not fit the way you desire, we provide a smooth size exchange process.
+      </p>
+
+      <ul style="padding-left: 20px; font-size: 0.88rem; line-height: 1.8; color: #444; margin-bottom: 20px;">
+        <li><strong>7-Day Exchange Window:</strong> Requests must be submitted within 7 calendar days of courier delivery.</li>
+        <li><strong>Original Condition:</strong> Garments must be unworn, unwashed, and free of fragrance, stains, or alterations, with all branded neck tags and packaging intact.</li>
+        <li><strong>Limited Drop Policy:</strong> If a requested replacement size is sold out due to strict limited capsule drop allocations, store credit or an alternative drop selection will be issued.</li>
+        <li><strong>How to Initiate:</strong> Tap our floating WhatsApp Concierge or email <a href="mailto:auramodeszn@gmail.com" style="text-decoration: underline;">auramodeszn@gmail.com</a> with your Order # and requested size.</li>
+      </ul>
+    </div>
+
+    <div id="help" style="border-top: 1px solid var(--border-light); padding-top: 40px; margin-top: 50px;">
+      <h2 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 16px;">Direct Concierge & Help</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 12px;">Need instant assistance with orders, sizing measurements, or priority dispatch?</p>
+      <p><strong>WhatsApp Concierge:</strong> <a href="https://wa.me/2349024462630" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">+234 902 446 2630 (Instant Chat)</a></p>
       <p><strong>Email:</strong> <a href="mailto:auramodeszn@gmail.com" style="color: inherit; text-decoration: underline;">auramodeszn@gmail.com</a></p>
-      <p><strong>Phone:</strong> <a href="tel:09024462630" style="color: inherit; text-decoration: underline;">09024462630</a></p>
       <p><strong>Instagram:</strong> <a href="https://instagram.com/auramode.ng" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">@auramode.ng</a></p>
-      <p><strong>Studio:</strong> River Park Estate, Lugbe, Abuja, Nigeria</p>
+      <p><strong>Atelier:</strong> River Park Estate, Lugbe, Abuja, Nigeria</p>
     </div>
   </main>
 

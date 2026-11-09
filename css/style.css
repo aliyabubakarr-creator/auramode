@@ -1941,5 +1941,140 @@ h2.section-title {
   }
 }
 
+/* ---------------- FLOATING WHATSAPP CONCIERGE ---------------- */
+.whatsapp-floating-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #000000;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px 11px 14px;
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  z-index: 9999;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s, background-color 0.2s;
+  cursor: pointer;
+}
+
+.whatsapp-floating-btn:hover {
+  background: #111111;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.36);
+  color: #ffffff;
+}
+
+.whatsapp-floating-btn i.fa-whatsapp {
+  font-size: 1.25rem;
+  color: #25d366;
+}
+
+.whatsapp-status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.3);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 600px) {
+  .whatsapp-floating-btn {
+    bottom: 20px;
+    right: 16px;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+    gap: 8px;
+  }
+}
+
+/* ---------------- CHECKOUT TRUST & POLICY CARDS ---------------- */
+.checkout-guarantee-card {
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px solid var(--border-light);
+  background: #fafafa;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.checkout-guarantee-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.checkout-guarantee-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkout-guarantee-item i {
+  font-size: 1rem;
+  color: #111;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .checkout-guarantee-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ---------------- SHIPPING & RETURNS POLICY SECTIONS ---------------- */
+.policy-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.policy-badge {
+  display: inline-block;
+  background: #000000;
+  color: #ffffff;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.policy-timeline-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 10px 0;
+  font-size: 0.85rem;
+}
+
+.policy-timeline-row:last-child {
+  border-bottom: none;
+}
+
 
 

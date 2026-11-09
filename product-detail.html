@@ -1,9 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mushroom Head T-Shirt | AURAMODE</title>
+  <title>Product Archive | AURAMODE</title>
+  <meta name="description" content="Discover AURAMODE's heavyweight streetwear garments, organic combed cotton drops, and avant-garde cuts.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="product">
+  <meta property="og:site_name" content="AURAMODE">
+  <meta property="og:title" id="ogTitle" content="Product Archive | AURAMODE">
+  <meta property="og:description" id="ogDesc" content="Discover AURAMODE's heavyweight streetwear garments, organic combed cotton drops, and avant-garde cuts.">
+  <meta property="og:image" id="ogImage" content="https://auramode.onrender.com/assets/product-cosmic-white.png">
+  <meta property="og:url" content="https://auramode.onrender.com/product-detail.html">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="assets/logo.png">
@@ -19,8 +30,10 @@
   <header class="site-header">
     <div class="header-top">
       <a href="about.html">About Us</a>
+      <a href="about.html#shipping">Shipping</a>
+      <a href="about.html#returns">Returns</a>
       <a href="about.html#help">Help</a>
-      <a href="account.html" class="user-greeting">Hi, Sherlock <i class="fas fa-user-circle"></i></a>
+      <a href="login.html" class="user-greeting">Sign In <i class="far fa-user"></i></a>
     </div>
     <div class="header-main">
       <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
@@ -266,6 +279,11 @@
       document.getElementById('productPrice').textContent = formatNaira(activeProduct.price);
       document.getElementById('breadcrumbTitle').textContent = `${activeProduct.name} ${activeProduct.subtitle}`;
       document.title = `${activeProduct.name} ${activeProduct.subtitle} | AURAMODE`;
+
+      const ogTitle = document.getElementById('ogTitle');
+      const ogImage = document.getElementById('ogImage');
+      if (ogTitle) ogTitle.content = `${activeProduct.name} | AURAMODE`;
+      if (ogImage && activeProduct.image) ogImage.content = window.location.origin + '/' + activeProduct.image;
 
       // Update wishlist button state
       updateWishlistBtn();
