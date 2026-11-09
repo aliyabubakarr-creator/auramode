@@ -116,23 +116,23 @@
         <div class="form-row">
           <div class="form-group">
             <label>First Name*</label>
-            <input type="text" class="form-input" id="regFirstName" value="Sherlock" required>
+            <input type="text" class="form-input" id="regFirstName" placeholder="First Name" required autocomplete="given-name">
           </div>
           <div class="form-group">
             <label>Last Name*</label>
-            <input type="text" class="form-input" id="regLastName" placeholder="Last Name*" value="P" required>
+            <input type="text" class="form-input" id="regLastName" placeholder="Last Name" required autocomplete="family-name">
           </div>
         </div>
 
         <div class="form-group">
           <label>Email address*</label>
-          <input type="email" class="form-input" id="regEmail" value="auramodeszn@gmail.com" oninput="validateRegEmail(this)" required>
+          <input type="email" class="form-input" id="regEmail" placeholder="name@example.com" oninput="validateRegEmail(this)" required autocomplete="email">
           <div id="regEmailErr" class="form-error-note" style="display: none;">[Enter correct email e.g. example@email.com]</div>
         </div>
 
         <div class="form-group" style="position: relative;">
-          <label>Password</label>
-          <input type="password" class="form-input" id="regPass" placeholder="Password" value="password123" required>
+          <label>Password*</label>
+          <input type="password" class="form-input" id="regPass" placeholder="Create a password" required autocomplete="new-password">
           <button type="button" onclick="toggleRegPassVisibility()" style="position: absolute; right: 14px; top: 32px; color: #888;" aria-label="Toggle password visibility">
             <i class="far fa-eye" id="regEyeIcon"></i>
           </button>
@@ -169,7 +169,7 @@
       <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
   </footer>
 
   <script src="js/store.js"></script>

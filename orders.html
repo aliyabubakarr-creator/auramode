@@ -190,7 +190,7 @@
       <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
   </footer>
 
   <script src="js/store.js"></script>
@@ -267,6 +267,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      if (!store.user || !store.user.loggedIn) {
+        window.location.replace('login.html');
+        return;
+      }
       renderOrders();
       window.addEventListener('auramode_store_updated', renderOrders);
     });

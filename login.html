@@ -95,13 +95,13 @@
     <form style="text-align: left;" onsubmit="handleLogin(event)">
       <div class="form-group">
         <label>Email address*</label>
-        <input type="email" id="loginEmail" class="form-input" value="auramodeszn@gmail.com" oninput="validateLoginEmail(this)" required>
+        <input type="email" id="loginEmail" class="form-input" placeholder="name@example.com" oninput="validateLoginEmail(this)" required autocomplete="email">
         <div id="loginEmailErr" class="form-error-note" style="display: none;">[Enter correct email e.g. example@email.com]</div>
       </div>
 
       <div class="form-group" style="position: relative;">
-        <label>Password</label>
-        <input type="password" id="loginPassword" class="form-input" placeholder="Password" value="password123" required>
+        <label>Password*</label>
+        <input type="password" id="loginPassword" class="form-input" placeholder="Enter password" required autocomplete="current-password">
         <button type="button" onclick="togglePassVisibility()" style="position: absolute; right: 14px; top: 32px; color: #888;" aria-label="Toggle password visibility">
           <i class="far fa-eye" id="eyeIcon"></i>
         </button>
@@ -140,7 +140,7 @@
       <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
   </footer>
 
   <script src="js/store.js"></script>
@@ -179,7 +179,7 @@
           window.location.href = 'account.html';
         }, 600);
       } else {
-        showToast(res && res.message ? res.message : 'Invalid credentials. Try auramodeszn@gmail.com / auramode123');
+        showToast(res && res.message ? res.message : 'Invalid email or password.');
       }
     }
   </script>

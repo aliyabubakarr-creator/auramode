@@ -142,12 +142,13 @@
         <a href="orders.html" class="account-sidebar-btn" style="margin-top: 24px; text-decoration: none;">
           <span>My Orders</span> <span>&gt;</span>
         </a>
-        <a href="admin.html" class="account-sidebar-btn" style="background: #000; color: #fff; margin-top: 12px; text-decoration: none;">
+        <a href="admin.html" id="adminConsoleBtn" class="account-sidebar-btn" style="background: #000; color: #fff; margin-top: 12px; text-decoration: none; display: none;">
           <span>Admin Console</span> <i class="fas fa-shield-alt"></i>
         </a>
 
         <div style="margin-top: 40px;">
-          <button class="btn-outline-dark" style="width: 100%; font-size: 0.8rem;" onclick="confirmDeleteAccount()">DELETE ACCOUNT</button>
+          <button class="btn-outline-dark" style="width: 100%; font-size: 0.8rem; margin-bottom: 12px;" onclick="store.logout(); window.location.href='login.html';">LOG OUT</button>
+          <button class="btn-outline-dark" style="width: 100%; font-size: 0.8rem; color: #c00; border-color: #fcc;" onclick="confirmDeleteAccount()">DELETE ACCOUNT</button>
         </div>
       </div>
 
@@ -160,7 +161,7 @@
           <div class="account-row">
             <div>
               <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Full Name:</span>
-              <strong id="displayFullName">Sherlock P</strong>
+              <strong id="displayFullName">—</strong>
             </div>
             <span class="edit-action-link" onclick="openEditModal('name')">Edit</span>
           </div>
@@ -168,7 +169,7 @@
           <div class="account-row">
             <div>
               <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Email Address:</span>
-              <strong id="displayEmail">auramodeszn@gmail.com</strong>
+              <strong id="displayEmail">—</strong>
             </div>
             <span class="edit-action-link" onclick="openEditModal('email')">Edit</span>
           </div>
@@ -176,7 +177,7 @@
           <div class="account-row">
             <div>
               <span style="color: var(--text-secondary); width: 140px; display: inline-block;">Password:</span>
-              <strong>â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</strong>
+              <strong>••••••••••••</strong>
             </div>
             <span class="edit-action-link" onclick="openEditModal('password')">Edit</span>
           </div>
@@ -191,16 +192,12 @@
               <strong>Default Delivery Address</strong>
               <span class="badge-tag" style="background: #000; color: #fff;">DEFAULT</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-              Sherlock P<br>
-              River Park Estate, Lugbe<br>
-              Abuja, FCT<br>
-              Nigeria<br>
-              09024462630
+            <p id="displayAddress" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+              No address saved yet.
             </p>
           </div>
 
-          <button class="btn-dark" onclick="showToast('Address book updated')">ADD NEW ADDRESS</button>
+          <button class="btn-dark" onclick="openEditAddressModal()">UPDATE ADDRESS</button>
         </div>
 
         <!-- Preferences View -->
@@ -252,7 +249,7 @@
       <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED &bull; <a href="admin.html" style="text-decoration: underline; opacity: 0.6;">Admin Console</a></p>
+    <p class="footer-copy">© AURAMODE 2026. ALL RIGHTS RESERVED</p>
   </footer>
 
   <script src="js/store.js"></script>
@@ -281,12 +278,12 @@
       if (field === 'name') {
         title.textContent = 'Edit Full Name';
         label.textContent = 'Full Name';
-        input.value = store.user.name;
+        input.value = store.user.name || '';
         input.type = 'text';
       } else if (field === 'email') {
         title.textContent = 'Edit Email Address';
         label.textContent = 'Email';
-        input.value = store.user.email;
+        input.value = store.user.email || '';
         input.type = 'email';
       } else if (field === 'password') {
         title.textContent = 'Change Password';
@@ -298,6 +295,20 @@
 
     function closeEditModal() {
       document.getElementById('editModal').style.display = 'none';
+    }
+
+    function openEditAddressModal() {
+      activeField = 'address';
+      const modal = document.getElementById('editModal');
+      const title = document.getElementById('editModalTitle');
+      const label = document.getElementById('editModalLabel');
+      const input = document.getElementById('editModalInput');
+
+      modal.style.display = 'flex';
+      title.textContent = 'Update Address';
+      label.textContent = 'Delivery Address';
+      input.value = store.user.address || '';
+      input.type = 'text';
     }
 
     async function saveEditModal() {
@@ -313,16 +324,31 @@
           lastName: parts.slice(1).join(' ') || ''
         });
       } else if (activeField === 'email') {
-        const oldEmail = store.user.email;
         store.user.email = val;
         document.getElementById('displayEmail').textContent = val;
-        await store.updateProfile({
-          email: val
-        });
+        await store.updateProfile({ email: val });
+      } else if (activeField === 'address') {
+        store.user.address = val;
+        renderAddress();
+        localStorage.setItem('auramode_user', JSON.stringify(store.user));
       }
       closeEditModal();
       showToast('Account details updated successfully');
       updateHeaderBadges();
+    }
+
+    function renderAddress() {
+      const addrElem = document.getElementById('displayAddress');
+      if (store.user && store.user.address) {
+        addrElem.innerHTML = `
+          ${store.user.name || ''}<br>
+          ${store.user.address}<br>
+          ${store.user.city || ''} ${store.user.state || ''}<br>
+          ${store.user.phone || ''}
+        `;
+      } else {
+        addrElem.textContent = 'No delivery address saved yet. Click "UPDATE ADDRESS" to add one.';
+      }
     }
 
     function confirmDeleteAccount() {
@@ -333,9 +359,20 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (store.user) {
-        document.getElementById('displayFullName').textContent = store.user.name;
-        document.getElementById('displayEmail').textContent = store.user.email;
+      // Gate access: must be logged in
+      if (!store.user || !store.user.loggedIn) {
+        window.location.replace('login.html');
+        return;
+      }
+
+      document.getElementById('displayFullName').textContent = store.user.name || '—';
+      document.getElementById('displayEmail').textContent = store.user.email || '—';
+      renderAddress();
+
+      // Only show Admin Console button if this user is the authorized admin email
+      if (store.user.email && store.user.email.toLowerCase() === 'auramodeszn@gmail.com') {
+        const adminBtn = document.getElementById('adminConsoleBtn');
+        if (adminBtn) adminBtn.style.display = 'flex';
       }
     });
   </script>

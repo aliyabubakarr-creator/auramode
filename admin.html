@@ -253,16 +253,16 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6;">
         <div style="background: #fff; border: 1px solid var(--border-light); padding: 16px;">
           <h3 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Customer Information</h3>
-          <p id="modalCustName"><strong>Sherlock P</strong></p>
-          <p id="modalCustEmail">auramodeszn@gmail.com</p>
-          <p id="modalCustPhone">09024462630</p>
+          <p id="modalCustName"><strong>—</strong></p>
+          <p id="modalCustEmail">—</p>
+          <p id="modalCustPhone">—</p>
         </div>
 
         <div style="background: #fff; border: 1px solid var(--border-light); padding: 16px;">
           <h3 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Shipping Destination</h3>
-          <p id="modalCustAddress">River Park Estate, Lugbe</p>
-          <p id="modalCustCityState">Abuja, FCT</p>
-          <p id="modalCustMethod">Method: Standard (Nigeria)</p>
+          <p id="modalCustAddress">—</p>
+          <p id="modalCustCityState">—</p>
+          <p id="modalCustMethod">—</p>
           <p id="modalPayRef" style="color: #666; font-size: 0.75rem; margin-top: 4px;">Ref: —</p>
         </div>
       </div>
@@ -531,7 +531,7 @@
 
       document.getElementById('modalStatusSelect').value = order.status;
       document.getElementById('modalCustName').innerHTML = `<strong>${order.shipping.firstName} ${order.shipping.lastName}</strong>`;
-      document.getElementById('modalCustEmail').textContent = order.email || 'auramodeszn@gmail.com';
+      document.getElementById('modalCustEmail').textContent = order.email || '—';
       document.getElementById('modalCustPhone').textContent = order.shipping.phone || '—';
       document.getElementById('modalCustAddress').textContent = order.shipping.address || '—';
       document.getElementById('modalCustCityState').textContent = `${order.shipping.city || ''}, ${order.shipping.state || ''}`;
@@ -854,6 +854,13 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Strict Admin Access Gate
+      if (!store.user || !store.user.loggedIn || (store.user.email || '').toLowerCase() !== 'auramodeszn@gmail.com') {
+        alert('Unauthorized access. Please sign in with an authorized administrator account.');
+        window.location.replace('login.html');
+        return;
+      }
+
       loadStats();
       loadOrders();
       loadProducts();

@@ -295,19 +295,20 @@ class Store {
   initAuth() {
     const saved = localStorage.getItem('auramode_user');
     if (saved) {
-      this.user = JSON.parse(saved);
+      try {
+        const parsed = JSON.parse(saved);
+        // Clear legacy mock/demo user from any previous visitors' browsers
+        if (parsed && (parsed.id === 'user-sherlock-default' || parsed.email === 'auramodeszn@gmail.com') && !parsed.isAuthenticSession) {
+          this.user = { name: 'Guest', email: '', loggedIn: false };
+          localStorage.removeItem('auramode_user');
+        } else {
+          this.user = parsed;
+        }
+      } catch {
+        this.user = { name: 'Guest', email: '', loggedIn: false };
+      }
     } else {
-      this.user = {
-        name: 'Sherlock P',
-        email: 'auramodeszn@gmail.com',
-        phone: '09024462630',
-        address: 'River Park Estate, Lugbe',
-        city: 'Abuja',
-        state: 'FCT',
-        loggedIn: true,
-        id: 'user-sherlock-default'
-      };
-      localStorage.setItem('auramode_user', JSON.stringify(this.user));
+      this.user = { name: 'Guest', email: '', loggedIn: false };
     }
   }
 
@@ -322,6 +323,7 @@ class Store {
       if (res.ok) {
         const data = await res.json();
         this.user = data.user;
+        this.user.isAuthenticSession = true;
         localStorage.setItem('auramode_user', JSON.stringify(this.user));
         this.dispatchUpdate();
         await this.syncOrdersFromApi();
@@ -329,11 +331,7 @@ class Store {
       }
       return { success: false, message: 'Invalid email or password' };
     } catch (err) {
-      // Offline fallback
-      this.user = { name: email.split('@')[0], email: email, loggedIn: true };
-      localStorage.setItem('auramode_user', JSON.stringify(this.user));
-      this.dispatchUpdate();
-      return { success: true, user: this.user };
+      return { success: false, message: 'Could not connect to authentication server' };
     }
   }
 
@@ -398,45 +396,13 @@ class Store {
   initOrders() {
     const saved = localStorage.getItem('auramode_orders');
     if (saved) {
-      this.orders = JSON.parse(saved);
+      try {
+        this.orders = JSON.parse(saved);
+      } catch {
+        this.orders = [];
+      }
     } else {
-      this.orders = [
-        {
-          orderNo: '22445588',
-          status: 'SENT',
-          date: '22/11/2023',
-          total: 60000,
-          items: [
-            { name: 'Cosmic Tee', image: 'assets/product-cosmic-white.png', qty: 1, price: 15000 },
-            { name: 'Vintage Black Tee', image: 'assets/product-seated-black.png', qty: 1, price: 15000 },
-            { name: 'Box Logo Tee', image: 'assets/product-boxlogo-black.png', qty: 1, price: 15000 },
-            { name: 'Trucker Cap', image: 'assets/product-cap.png', qty: 1, price: 15000 }
-          ]
-        },
-        {
-          orderNo: '22445589',
-          status: 'SENT',
-          date: '22/11/2023',
-          total: 30000,
-          items: [
-            { name: 'Cosmic Tee', image: 'assets/product-cosmic-white.png', qty: 1, price: 15000 },
-            { name: 'Vintage Black Tee', image: 'assets/product-seated-black.png', qty: 1, price: 15000 }
-          ]
-        },
-        {
-          orderNo: '22445590',
-          status: 'SENT',
-          date: '22/11/2023',
-          total: 60000,
-          items: [
-            { name: 'Cosmic Tee', image: 'assets/product-cosmic-white.png', qty: 1, price: 15000 },
-            { name: 'Vintage Black Tee', image: 'assets/product-seated-black.png', qty: 1, price: 15000 },
-            { name: 'Box Logo Tee', image: 'assets/product-boxlogo-black.png', qty: 1, price: 15000 },
-            { name: 'Trucker Cap', image: 'assets/product-cap.png', qty: 1, price: 15000 }
-          ]
-        }
-      ];
-      localStorage.setItem('auramode_orders', JSON.stringify(this.orders));
+      this.orders = [];
     }
   }
 
